@@ -11,6 +11,8 @@ import 'package:news_hub/core/logging/log_level.dart';
 import 'package:news_hub/core/network/interceptors/logging_interceptor.dart';
 import 'package:news_hub/core/network/network_info.dart';
 import 'package:news_hub/core/network/network_info_impl.dart';
+import 'package:news_hub/core/platform/url_opener.dart';
+import 'package:news_hub/core/platform/url_opener_impl.dart';
 import 'package:news_hub/core/storage/local_database.dart';
 import 'package:news_hub/core/storage/local_database_impl.dart';
 
@@ -106,6 +108,15 @@ void main() {
       expect(getIt<LocalDatabase>(), same(localDatabase));
     });
 
+    test('resolves UrlOpener to UrlOpenerImpl', () {
+      // Resolving only builds the object: url_launcher's launchUrl is passed
+      // as a tear-off and runs only when a link is opened, so no plugin is
+      // touched here (Step 25, D24).
+      registerCoreModule(getIt, config: _config());
+
+      expect(getIt<UrlOpener>(), isA<UrlOpenerImpl>());
+    });
+
     test('returns the same instance on every lookup', () {
       registerCoreModule(getIt, config: _config());
 
@@ -114,6 +125,7 @@ void main() {
       expect(getIt<CacheOptions>(), same(getIt<CacheOptions>()));
       expect(getIt<Dio>(), same(getIt<Dio>()));
       expect(getIt<LocalDatabase>(), same(getIt<LocalDatabase>()));
+      expect(getIt<UrlOpener>(), same(getIt<UrlOpener>()));
     });
   });
 }

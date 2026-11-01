@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:news_hub/core/di/injection_container.dart';
 import 'package:news_hub/core/error/failures.dart' as failures;
+import 'package:news_hub/core/platform/url_opener.dart';
 import 'package:news_hub/core/result/result.dart';
 import 'package:news_hub/features/news_feed/domain/entities/article.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/get_bookmark_status.dart';
@@ -21,14 +22,17 @@ import '../../../../helpers/pump_app.dart';
 
 void main() {
   late MockNewsRepository repository;
+  late MockUrlOpener opener;
   late Article article;
 
   setUpAll(useNeverLoadingImages);
 
   setUp(() {
     repository = MockNewsRepository();
+    opener = MockUrlOpener();
     article = buildArticle('https://example.com/detail');
     getIt
+      ..registerSingleton<UrlOpener>(opener)
       ..registerFactory<GetBookmarkStatus>(
         () => GetBookmarkStatus(repository: repository),
       )
@@ -111,6 +115,27 @@ void main() {
     expect(button.onPressed, isNotNull);
     expect(button.tooltip, 'Add bookmark');
     verify(status).called(2);
+    verifyNoMoreInteractions(repository);
+  });
+
+  testWidgets('opens the article URL through the app UrlOpener', (
+    WidgetTester tester,
+  ) async {
+    final Uri url = Uri.parse(article.url);
+    when(status).thenAnswer((_) async => const Success<bool>(false));
+    when(() => opener.open(url)).thenAnswer((_) async => true);
+
+    await tester.pumpApp(ArticleDetailPage(article: article));
+    await tester.pump();
+    await tester.ensureVisible(find.text('Open full article'));
+    await tester.pump();
+    await tester.tap(find.text('Open full article'));
+    await tester.pump();
+
+    verify(() => opener.open(url)).called(1);
+    verifyNoMoreInteractions(opener);
+    expect(find.byType(SnackBar), findsNothing);
+    verify(status).called(1);
     verifyNoMoreInteractions(repository);
   });
 

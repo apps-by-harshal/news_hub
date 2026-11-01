@@ -4,6 +4,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:news_hub/core/logging/app_logger.dart';
 import 'package:news_hub/core/network/network_info.dart';
+import 'package:news_hub/core/platform/url_opener.dart';
 import 'package:news_hub/core/storage/local_database.dart';
 import 'package:news_hub/features/news_feed/data/api/news_api_service.dart';
 import 'package:news_hub/features/news_feed/data/datasources/news_local_data_source.dart';
@@ -38,6 +39,8 @@ class MockAppLogger extends Mock implements AppLogger {}
 class MockLocalDatabase extends Mock implements LocalDatabase {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
+
+class MockUrlOpener extends Mock implements UrlOpener {}
 
 // ---- features/news_feed ----
 

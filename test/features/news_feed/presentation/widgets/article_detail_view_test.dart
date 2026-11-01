@@ -32,6 +32,9 @@ const String _imageUrl = 'https://example.com/markets-rally.jpg';
 final DateTime _publishedAt = DateTime(2026, 10, 30, 12).toUtc();
 const String _meta = 'Reuters · Oct 30, 2026';
 
+const String _openLabel = 'Open full article';
+const String _openFailureCopy = "Couldn't open the article.";
+
 const String _cacheCopy =
     "Couldn't update the bookmark. Couldn't read or save data on this device.";
 const String _networkCopy =
@@ -61,6 +64,18 @@ void main() {
   late StreamController<ArticleDetailState> controller;
   late Article article;
 
+  /// Every URL the view asked to open, in order.
+  late List<Uri> openedUrls;
+
+  /// What the next open answers; `true` unless a test changes it.
+  late Future<bool> Function() openAnswer;
+
+  /// The `onOpenArticle` callback given to the view: records, then answers.
+  Future<bool> openArticle(Uri url) {
+    openedUrls.add(url);
+    return openAnswer();
+  }
+
   setUpAll(() {
     registerFallbackValue(const ArticleDetailStarted());
     useNeverLoadingImages();
@@ -70,6 +85,8 @@ void main() {
     bloc = MockArticleDetailBloc();
     controller = StreamController<ArticleDetailState>.broadcast();
     article = _buildArticle();
+    openedUrls = <Uri>[];
+    openAnswer = () async => true;
   });
 
   tearDown(() async {
@@ -87,7 +104,7 @@ void main() {
     await tester.pumpApp(
       BlocProvider<ArticleDetailBloc>.value(
         value: bloc,
-        child: const ArticleDetailView(),
+        child: ArticleDetailView(onOpenArticle: openArticle),
       ),
     );
   }
@@ -99,6 +116,26 @@ void main() {
 
   IconButton iconButton(WidgetTester tester, IconData icon) =>
       tester.widget<IconButton>(find.widgetWithIcon(IconButton, icon));
+
+  /// The "Open full article" button, whatever its concrete button class.
+  ButtonStyleButton openButton(WidgetTester tester) =>
+      tester.widget<ButtonStyleButton>(
+        find.ancestor(
+          of: find.text(_openLabel),
+          matching: find.byWidgetPredicate(
+            (Widget widget) => widget is ButtonStyleButton,
+          ),
+        ),
+      );
+
+  /// Scrolls the button into view (it sits below the article text), taps it
+  /// and lets the open finish.
+  Future<void> tapOpen(WidgetTester tester) async {
+    await tester.ensureVisible(find.text(_openLabel));
+    await tester.pump();
+    await tester.tap(find.text(_openLabel));
+    await tester.pump();
+  }
 
   testWidgets('passes its key to the widget tree', (WidgetTester tester) async {
     // Built at run time (not `const`), so the constructor itself runs: the
@@ -114,7 +151,7 @@ void main() {
     await tester.pumpApp(
       BlocProvider<ArticleDetailBloc>.value(
         value: bloc,
-        child: ArticleDetailView(key: key),
+        child: ArticleDetailView(key: key, onOpenArticle: openArticle),
       ),
     );
 
@@ -348,6 +385,100 @@ void main() {
       expect(button.tooltip, 'Add bookmark');
       expect(find.byTooltip('Retry loading bookmark'), findsNothing);
       expect(find.byType(SnackBar), findsNothing);
+    });
+  });
+
+  group('open full article', () {
+    testWidgets('opens the article URL once from the Open full article '
+        'button', (WidgetTester tester) async {
+      await pumpView(
+        tester,
+        ArticleDetailReady(article: article, isBookmarked: false),
+      );
+
+      expect(find.text(_openLabel), findsOneWidget);
+      expect(find.byIcon(Icons.open_in_new), findsOneWidget);
+      expect(openButton(tester).onPressed, isNotNull);
+
+      await tapOpen(tester);
+
+      expect(openedUrls, <Uri>[Uri.parse(_url)]);
+      verifyNever(() => bloc.add(any()));
+    });
+
+    testWidgets('shows a snackbar when the article could not be opened', (
+      WidgetTester tester,
+    ) async {
+      openAnswer = () async => false;
+      await pumpView(
+        tester,
+        ArticleDetailReady(article: article, isBookmarked: false),
+      );
+
+      await tapOpen(tester);
+      await tester.pump(const Duration(milliseconds: 750));
+
+      expect(find.text(_openFailureCopy), findsOneWidget);
+      expect(openButton(tester).onPressed, isNotNull);
+    });
+
+    testWidgets('shows no snackbar when the article opened', (
+      WidgetTester tester,
+    ) async {
+      await pumpView(
+        tester,
+        ArticleDetailReady(article: article, isBookmarked: false),
+      );
+
+      await tapOpen(tester);
+      await tester.pump(const Duration(milliseconds: 750));
+
+      expect(openedUrls, hasLength(1));
+      expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets('is disabled while the article is opening and enabled again '
+        'after', (WidgetTester tester) async {
+      final Completer<bool> pending = Completer<bool>();
+      openAnswer = () => pending.future;
+      await pumpView(
+        tester,
+        ArticleDetailReady(article: article, isBookmarked: false),
+      );
+
+      await tapOpen(tester);
+
+      expect(openButton(tester).onPressed, isNull);
+      await tester.tap(find.text(_openLabel));
+      await tester.pump();
+      expect(openedUrls, hasLength(1));
+
+      pending.complete(true);
+      await tester.pump();
+
+      expect(openButton(tester).onPressed, isNotNull);
+      expect(openedUrls, hasLength(1));
+      expect(find.byType(SnackBar), findsNothing);
+    });
+
+    testWidgets('throws nothing when the view is removed while opening', (
+      WidgetTester tester,
+    ) async {
+      final Completer<bool> pending = Completer<bool>();
+      openAnswer = () => pending.future;
+      await pumpView(
+        tester,
+        ArticleDetailReady(article: article, isBookmarked: false),
+      );
+      await tapOpen(tester);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      pending.complete(false);
+      await tester.pump();
+
+      expect(tester.takeException(), isNull);
+      expect(find.byType(SnackBar), findsNothing);
+      expect(openedUrls, hasLength(1));
     });
   });
 

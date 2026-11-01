@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_hub/core/error/failures.dart' as failures;
@@ -19,10 +21,18 @@ import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/art
 /// - the AppBar's bookmark action follows the state: disabled while the
 ///   status loads or could not be read (with a Retry next to it), filled or
 ///   outlined once known, disabled while a toggle runs;
-/// - a new `toggleFailure` shows one snackbar with `userMessage` (D9).
+/// - a new `toggleFailure` shows one snackbar with `userMessage` (D9);
+/// - "Open full article" (Step 25, D24) hands the article's URL to
+///   [onOpenArticle], stays disabled until it completes, and shows a snackbar
+///   when nothing opened.
 class ArticleDetailView extends StatelessWidget {
   /// Creates the detail view.
-  const ArticleDetailView({super.key});
+  const ArticleDetailView({required this.onOpenArticle, super.key});
+
+  /// Opens the article's web page; completes with `true` if it opened.
+  ///
+  /// `ArticleDetailPage` passes the app's `UrlOpener`, which never throws.
+  final Future<bool> Function(Uri url) onOpenArticle;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class ArticleDetailView extends StatelessWidget {
         body: BlocSelector<ArticleDetailBloc, ArticleDetailState, Article>(
           selector: (ArticleDetailState state) => state.article,
           builder: (BuildContext context, Article article) =>
-              _ArticleContent(article: article),
+              _ArticleContent(article: article, onOpenArticle: onOpenArticle),
         ),
       ),
     );
@@ -121,9 +131,10 @@ class _DisabledBookmarkButton extends StatelessWidget {
 
 /// The scrollable article body.
 class _ArticleContent extends StatelessWidget {
-  const _ArticleContent({required this.article});
+  const _ArticleContent({required this.article, required this.onOpenArticle});
 
   final Article article;
+  final Future<bool> Function(Uri url) onOpenArticle;
 
   @override
   Widget build(BuildContext context) {
@@ -160,6 +171,10 @@ class _ArticleContent extends StatelessWidget {
                 if (description != null)
                   Text(description, style: textTheme.bodyLarge),
                 if (content != null) Text(content, style: textTheme.bodyMedium),
+                _OpenArticleButton(
+                  url: article.url,
+                  onOpenArticle: onOpenArticle,
+                ),
                 SelectableText(
                   article.url,
                   style: textTheme.bodySmall?.copyWith(color: colors.primary),
@@ -169,6 +184,60 @@ class _ArticleContent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// "Open full article": hands the article's URL to [onOpenArticle], stays
+/// disabled until that completes, and shows a snackbar if nothing opened.
+class _OpenArticleButton extends StatefulWidget {
+  const _OpenArticleButton({required this.url, required this.onOpenArticle});
+
+  final String url;
+  final Future<bool> Function(Uri url) onOpenArticle;
+
+  @override
+  State<_OpenArticleButton> createState() => _OpenArticleButtonState();
+}
+
+class _OpenArticleButtonState extends State<_OpenArticleButton> {
+  bool _opening = false;
+
+  Future<void> _open() async {
+    // Read before the await: the view may be gone when the open completes.
+    final ScaffoldMessengerState messenger = ScaffoldMessenger.of(context);
+    setState(() {
+      _opening = true;
+    });
+
+    // The mapper guarantees an absolute http(s) URL (D14).
+    final bool opened = await widget.onOpenArticle(Uri.parse(widget.url));
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _opening = false;
+    });
+    if (!opened) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(content: Text("Couldn't open the article.")),
+        );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton.tonalIcon(
+      onPressed: _opening
+          ? null
+          : () {
+              unawaited(_open());
+            },
+      icon: const Icon(Icons.open_in_new),
+      label: const Text('Open full article'),
     );
   }
 }

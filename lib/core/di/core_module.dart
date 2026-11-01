@@ -10,9 +10,12 @@ import 'package:news_hub/core/network/cache/http_cache_config.dart';
 import 'package:news_hub/core/network/dio_client.dart';
 import 'package:news_hub/core/network/network_info.dart';
 import 'package:news_hub/core/network/network_info_impl.dart';
+import 'package:news_hub/core/platform/url_opener.dart';
+import 'package:news_hub/core/platform/url_opener_impl.dart';
 import 'package:news_hub/core/storage/local_database.dart';
 import 'package:news_hub/core/storage/local_database_impl.dart';
 import 'package:news_hub/hive_registrar.g.dart';
+import 'package:url_launcher/url_launcher.dart' show launchUrl;
 
 /// Registers the shared, feature-agnostic services in [getIt].
 ///
@@ -29,6 +32,10 @@ import 'package:news_hub/hive_registrar.g.dart';
 /// composition root, `core/di/` is the only part of `core/` that may import
 /// the generated `hive_registrar.g.dart` (CLAUDE.md §3.1). Tests pass
 /// [localDatabase] to register a fake instead.
+///
+/// [UrlOpener] (Step 25, D24) is a lazy [UrlOpenerImpl] given url_launcher's
+/// `launchUrl` tear-off, so resolving it never touches the plugin; the link
+/// opens only when `open` is called.
 void registerCoreModule(
   GetIt getIt, {
   required AppConfig config,
@@ -52,6 +59,9 @@ void registerCoreModule(
         logger: getIt<AppLogger>(),
         cacheOptions: getIt<CacheOptions>(),
       ),
+    )
+    ..registerLazySingleton<UrlOpener>(
+      () => UrlOpenerImpl(launch: launchUrl, logger: getIt<AppLogger>()),
     );
 
   if (localDatabase != null) {
