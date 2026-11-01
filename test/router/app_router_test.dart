@@ -51,8 +51,7 @@ Future<void> _pumpRouterApp(WidgetTester tester, GoRouter router) async {
 
 /// Lets pending use-case futures complete and page transitions finish.
 ///
-/// Not `pumpAndSettle()`: a spinner on screen would never settle (CLAUDE.md
-/// §5).
+/// Not `pumpAndSettle()`: a spinner on screen would never settle.
 Future<void> _settle(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(seconds: 1));

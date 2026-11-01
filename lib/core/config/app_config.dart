@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/config/flavor.dart';
-import 'package:news_hub/core/logging/log_level.dart';
+
+import '../logging/log_level.dart';
+import 'flavor.dart';
 
 /// Typed, validated, immutable app configuration.
 ///
 /// Values come from `--dart-define-from-file=env/<flavor>.json` and are read
 /// exactly once, at startup, via [AppConfig.fromEnvironment]. This is the
-/// only place in the codebase that reads compile-time environment values
-/// (CLAUDE.md §7).
+/// only place in the codebase that reads compile-time environment values.
 ///
 /// Invalid or missing values throw a [FormatException] immediately, so a bad
 /// config stops the app at launch instead of failing later with a 401.

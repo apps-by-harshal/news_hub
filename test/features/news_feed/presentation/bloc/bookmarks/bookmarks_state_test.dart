@@ -1,5 +1,5 @@
 // States under test are built without `const` on purpose: identical const
-// instances would pass without Equatable (agreement 9). `BookmarksLoading`
+// instances would pass without Equatable. `BookmarksLoading`
 // has no fields and `BookmarksFailure` takes a const failure, so the lint
 // would ask for `const` on them.
 // ignore_for_file: prefer_const_constructors

@@ -1,7 +1,7 @@
-/// An `Article` as stored in Hive, for the feed cache and bookmarks (D13).
+/// An `Article` as stored in Hive, for the feed cache and bookmarks.
 ///
 /// A plain class on purpose: its `TypeAdapter` is generated from the
-/// `@GenerateAdapters` list in `lib/hive_adapters.dart` (Step 17a), and every
+/// `@GenerateAdapters` list in `lib/hive_adapters.dart`, and every
 /// field below becomes a persisted Hive field. The source is flattened into
 /// [sourceId] and [sourceName], so one adapter covers the whole article.
 ///
@@ -13,7 +13,7 @@
 final class ArticleLocalModel {
   /// Creates a local model. Every field is `required`, including the
   /// nullable ones, so a forgotten field fails to compile (same rule as the
-  /// entity, D11).
+  /// entity).
   const ArticleLocalModel({
     required this.url,
     required this.title,
@@ -26,7 +26,7 @@ final class ArticleLocalModel {
     required this.imageUrl,
   });
 
-  /// The article's identity (D1, D11).
+  /// The article's identity.
   final String url;
 
   /// The headline.

@@ -45,7 +45,7 @@ Article buildArticlePublishedAt(DateTime publishedAt) => Article(
 );
 
 /// The fields of [model] in declaration order. `ArticleLocalModel` has no
-/// `==` (plain class, Step 17a), so tests compare these lists instead.
+/// `==` (plain class), so tests compare these lists instead.
 List<Object?> localFields(ArticleLocalModel model) => <Object?>[
   model.url,
   model.title,

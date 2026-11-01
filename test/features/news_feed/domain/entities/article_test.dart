@@ -122,7 +122,7 @@ void main() {
       expect(buildArticle(imageUrl: null), isNot(equals(buildArticle())));
     });
 
-    test('the same instant in local time and UTC is not equal (D11: the '
+    test('the same instant in local time and UTC is not equal (the '
         'mapper must normalise publishedAt to UTC)', () {
       final DateTime utc = DateTime.utc(2026, 10, 29, 12);
       final DateTime local = utc.toLocal();

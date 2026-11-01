@@ -1,7 +1,7 @@
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/core/usecase/usecase.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
+import '../../../../core/result/result.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/article.dart';
+import '../repositories/news_repository.dart';
 
 /// Bookmarks an article, or removes its bookmark if it already has one.
 ///

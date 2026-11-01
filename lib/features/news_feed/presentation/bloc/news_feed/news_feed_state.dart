@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
+
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../domain/entities/article.dart';
+import '../../../domain/entities/news_category.dart';
 
 /// What the feed screen shows, emitted by `NewsFeedBloc`.
 ///
@@ -17,7 +18,7 @@ sealed class NewsFeedState extends Equatable {
   List<Object?> get props => <Object?>[category];
 }
 
-/// Before the first load. The category is the default, `general` (D12).
+/// Before the first load. The category is the default, `general`.
 final class NewsFeedInitial extends NewsFeedState {
   const NewsFeedInitial() : super(category: NewsCategory.general);
 }
@@ -36,7 +37,7 @@ final class NewsFeedLoading extends NewsFeedState {
 /// [refreshFailure]. The bloc clears both failures when the next action
 /// starts, so the same failure twice in a row still produces a new state.
 ///
-/// The UI picks its copy by failure type and never shows `message` (D9).
+/// The UI picks its copy by failure type and never shows `message`.
 ///
 /// Not `const`: the constructor copies [articles] into an unmodifiable list.
 final class NewsFeedLoaded extends NewsFeedState {
@@ -66,7 +67,7 @@ final class NewsFeedLoaded extends NewsFeedState {
   final bool hasMore;
 
   /// Whether the list came from the local cache
-  /// (`PaginatedArticles.isFromCache`, D12). The screen shows the offline
+  /// (`PaginatedArticles.isFromCache`). The screen shows the offline
   /// banner.
   final bool isOffline;
 
@@ -133,7 +134,7 @@ final class NewsFeedLoaded extends NewsFeedState {
 final class NewsFeedFailure extends NewsFeedState {
   const NewsFeedFailure({required super.category, required this.failure});
 
-  /// Why loading failed. The UI picks its copy by failure type (D9).
+  /// Why loading failed. The UI picks its copy by failure type.
   final failures.Failure failure;
 
   @override

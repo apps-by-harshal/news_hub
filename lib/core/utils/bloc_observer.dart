@@ -1,9 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
+
+import '../logging/app_logger.dart';
 
 /// Logs every bloc's lifecycle through the injected [AppLogger].
 ///
-/// Installed once in `bootstrap.dart` with `Bloc.observer = …` (Step 23).
+/// Installed once in `bootstrap.dart` with `Bloc.observer = …`.
 ///
 /// - [onCreate] / [onClose] → `debug('Bloc created|closed: <BlocType>')`.
 /// - [onTransition] → `debug('<BlocType>: <EventType> | <From> → <To>')`.
@@ -11,9 +12,9 @@ import 'package:news_hub/core/logging/app_logger.dart';
 ///
 /// Only runtime types are logged, never values: states hold whole article
 /// lists, and events can carry entities. `onEvent` and `onChange` are not
-/// logged, because every transition already names its event and both states
-/// (CLAUDE.md §4.3, D19). Overrides declare `Object?` where the framework
-/// declares `dynamic` (CLAUDE.md §4.1).
+/// logged, because every transition already names its event and both states.
+/// Overrides declare `Object?` where the framework
+/// declares `dynamic`.
 final class AppBlocObserver extends BlocObserver {
   /// Creates an observer that writes to [logger].
   const AppBlocObserver({required this._logger});

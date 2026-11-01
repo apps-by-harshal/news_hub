@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/utils/failure_message.dart';
-import 'package:news_hub/core/widgets/app_error_view.dart';
-import 'package:news_hub/core/widgets/app_loading_indicator.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_bloc.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_state.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/article_list_tile.dart';
+
+import '../../../../core/error/failures.dart' as failures;
+import '../../../../core/utils/failure_message.dart';
+import '../../../../core/widgets/app_error_view.dart';
+import '../../../../core/widgets/app_loading_indicator.dart';
+import '../../domain/entities/article.dart';
+import '../bloc/bookmarks/bookmarks_bloc.dart';
+import '../bloc/bookmarks/bookmarks_event.dart';
+import '../bloc/bookmarks/bookmarks_state.dart';
+import 'article_list_tile.dart';
 
 /// The bookmarks screen: every saved article, newest first, driven by the
-/// [BookmarksBloc] above it (Step 24, D20).
+/// [BookmarksBloc] above it.
 ///
 /// It reads state and sends events only; the page creates the bloc, sends
 /// `BookmarksStarted`, and reloads after [onArticleTap]'s navigation returns.

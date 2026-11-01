@@ -1,6 +1,6 @@
-import 'package:news_hub/core/error/failures.dart' as failures;
+import '../error/failures.dart' as failures;
 
-/// User-facing copy for a domain failure (D9).
+/// User-facing copy for a domain failure.
 ///
 /// The UI chooses its text by failure *type* and never shows
 /// `failures.Failure.message`, which is diagnostic text for logs. The switch

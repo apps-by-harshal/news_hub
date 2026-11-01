@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-/// The app's only way to show a network image (Step 22).
+/// The app's only way to show a network image.
 ///
 /// Wraps `CachedNetworkImage` so the rest of the app never depends on it
 /// directly. Three looks, all at the given size so layouts never jump:

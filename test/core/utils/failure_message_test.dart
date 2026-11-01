@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:news_hub/core/error/failures.dart' as failures;
 import 'package:news_hub/core/utils/failure_message.dart';
 
-/// Diagnostic text that must never reach the user (D9). Built at runtime so
-/// the failures under test are not `const` (agreement 9).
+/// Diagnostic text that must never reach the user. Built at runtime so
+/// the failures under test are not `const`.
 String diagnosticFor(String name) =>
     'diagnostic: $name failed in the data layer';
 
@@ -85,7 +85,7 @@ void main() {
       expect(internalError, withoutStatus);
     });
 
-    test('never contains the diagnostic message (D9)', () {
+    test('never contains the diagnostic message', () {
       for (final failures.Failure failure in buildOneOfEachFailure()) {
         expect(
           failure.userMessage,

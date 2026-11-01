@@ -1,5 +1,5 @@
 # News Hub — static analysis rules.
-# Source of truth for the typing and logging rules in CLAUDE.md §4.
+# Enforces the project's typing, logging, async and import rules.
 # `flutter analyze` must report zero issues before any file is considered done.
 
 include: package:flutter_lints/flutter.yaml
@@ -24,7 +24,7 @@ analyzer:
     discarded_futures: error
 
   exclude:
-    # Generated code is committed (D6) but never hand-edited or linted.
+    # Generated code is committed but never hand-edited or linted.
     - "**/*.g.dart"
     - build/**
     - android/**
@@ -32,7 +32,7 @@ analyzer:
 
 linter:
   rules:
-    # --- Typing (CLAUDE.md §4.1) ---
+    # --- Typing ---
     avoid_dynamic_calls: true
     avoid_annotating_with_dynamic: true
     always_declare_return_types: true
@@ -40,7 +40,7 @@ linter:
     # Locals may be inferred; public APIs must be explicit (above).
     omit_local_variable_types: false
 
-    # --- Logging (CLAUDE.md §4.3) ---
+    # --- Logging ---
     avoid_print: true
 
     # --- Async safety ---
@@ -57,7 +57,10 @@ linter:
     # --- Structure & readability ---
     sort_constructors_first: true
     directives_ordering: true
-    always_use_package_imports: true
+    # Inside lib/, the app's own files are imported with relative paths.
+    # (Replaces always_use_package_imports, which requires the opposite.)
+    # Tests keep package: imports for lib/ files.
+    prefer_relative_imports: true
 
     # Trailing commas are owned by `dart format`, not the linter.
     require_trailing_commas: false

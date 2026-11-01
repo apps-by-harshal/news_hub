@@ -2,27 +2,28 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/presentation/pages/article_detail_page.dart';
-import 'package:news_hub/features/news_feed/presentation/pages/bookmarks_page.dart';
-import 'package:news_hub/features/news_feed/presentation/pages/news_feed_page.dart';
-import 'package:news_hub/router/route_names.dart';
 
-/// Builds the app's [GoRouter] (Step 22a).
+import '../features/news_feed/domain/entities/article.dart';
+import '../features/news_feed/presentation/pages/article_detail_page.dart';
+import '../features/news_feed/presentation/pages/bookmarks_page.dart';
+import '../features/news_feed/presentation/pages/news_feed_page.dart';
+import 'route_names.dart';
+
+/// Builds the app's [GoRouter].
 ///
 /// - [RouteNames.feedPath] shows [NewsFeedPage]; tapping an article pushes
 ///   [RouteNames.article] with the [Article] as `extra`, and the app bar's
 ///   Bookmarks button pushes [RouteNames.bookmarks].
 /// - [RouteNames.bookmarksPath] shows [BookmarksPage]; tapping an article
 ///   pushes [RouteNames.article] and completes when it is popped, so the page
-///   can reload (Step 24, D23).
+///   can reload.
 /// - [RouteNames.articlePath] shows [ArticleDetailPage] for the [Article] in
 ///   `extra`. Without one (a deep link, a web refresh, restored state) it
 ///   redirects to the feed, because an article can't be rebuilt from the URL.
 ///
-/// Pages never import go_router (D20): navigation reaches them as a callback
+/// Pages never import go_router: navigation reaches them as a callback
 /// or a constructor value. The router is app-level wiring, so it lives in
-/// `lib/router/`, not `core/` (CLAUDE.md §3.1). The caller owns the router
+/// `lib/router/`, not `core/`. The caller owns the router
 /// and disposes it.
 GoRouter createAppRouter({
   List<NavigatorObserver> observers = const <NavigatorObserver>[],

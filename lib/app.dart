@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_hub/core/theme/app_theme.dart';
 
-/// The root widget of News Hub (Step 22a).
+import 'core/theme/app_theme.dart';
+
+/// The root widget of News Hub.
 ///
 /// Applies the light and dark [AppTheme]s (the platform picks one,
 /// `ThemeMode.system`) and hands navigation to [router]. The router is built
-/// and disposed by the caller (`bootstrap.dart`, Step 23), so tests can pass
-/// their own. No global bloc providers: each page creates its own bloc (D19).
+/// and disposed by the caller (`bootstrap.dart`), so tests can pass
+/// their own. No global bloc providers: each page creates its own bloc.
 class App extends StatelessWidget {
   /// Creates the app around [router].
   const App({required this.router, super.key});

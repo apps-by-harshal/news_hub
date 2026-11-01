@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
+
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../domain/entities/article.dart';
 
 /// What the article detail screen shows, emitted by `ArticleDetailBloc`.
 ///
@@ -23,11 +24,10 @@ final class ArticleDetailLoading extends ArticleDetailState {
 
 /// The bookmark status is known.
 ///
-/// While [isToggling] is `true`, further taps are ignored (D12). After a
+/// While [isToggling] is `true`, further taps are ignored. After a
 /// failed toggle, [isBookmarked] is unchanged (the repository changed
 /// nothing) and [toggleFailure] drives a snackbar until the next toggle
-/// starts. The UI picks its copy by failure type and never shows `message`
-/// (D9).
+/// starts. The UI picks its copy by failure type and never shows `message`.
 final class ArticleDetailReady extends ArticleDetailState {
   const ArticleDetailReady({
     required super.article,
@@ -83,7 +83,7 @@ final class ArticleDetailStatusFailure extends ArticleDetailState {
   });
 
   /// Why the status could not be read. The UI picks its copy by failure
-  /// type (D9).
+  /// type.
   final failures.Failure failure;
 
   @override

@@ -78,7 +78,7 @@ Matcher _isParsingException() => isA<ParsingException>().having(
 
 /// A genuine [TypeError] from a failed cast: the error Dio wraps in a
 /// `DioExceptionType.unknown` when a response body does not match the
-/// requested type (Step 19, D10).
+/// requested type.
 TypeError _realTypeError() {
   try {
     const Object notAnInt = 'not a number';

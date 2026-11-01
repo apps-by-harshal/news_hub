@@ -1,5 +1,5 @@
 // Shared article builders for model, mapper, data source and repository
-// tests (deferred from Step 13).
+// tests.
 //
 // `buildArticle(url)` and `buildArticleJson(url)` are a matched pair: mapping
 // `buildArticleJson(url)` through `ArticleModel.fromJson` and the article
@@ -7,7 +7,7 @@
 // `url`, so two different URLs give articles that differ in every field.
 // Pass an absolute `http`/`https` URL, or the mapper drops the article.
 //
-// `buildArticleWithoutOptionals(url)` (Step 19) is the same article with
+// `buildArticleWithoutOptionals(url)` is the same article with
 // every nullable field `null`, for storage round trips.
 
 import 'package:news_hub/features/news_feed/domain/entities/article.dart';

@@ -1,4 +1,4 @@
-/// Names and paths of the app's routes (Step 22a).
+/// Names and paths of the app's routes.
 ///
 /// Code navigates by **name** (`context.pushNamed(RouteNames.article, …)`);
 /// paths appear only in the route table and its redirects. go_router names
@@ -18,8 +18,7 @@ abstract final class RouteNames {
   /// refresh), it redirects to [feedPath].
   static const String articlePath = '/article';
 
-  /// The list of bookmarked articles, opened from the feed's app bar
-  /// (Step 24).
+  /// The list of bookmarked articles, opened from the feed's app bar.
   static const String bookmarks = 'bookmarks';
 
   /// Path of [bookmarks].

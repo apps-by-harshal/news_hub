@@ -1,14 +1,15 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/get_bookmark_status.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/toggle_bookmark.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_state.dart';
 
-/// Drives the bookmark button of one article's detail screen (Step 21).
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../../../core/result/result.dart';
+import '../../../domain/entities/article.dart';
+import '../../../domain/usecases/get_bookmark_status.dart';
+import '../../../domain/usecases/toggle_bookmark.dart';
+import 'article_detail_event.dart';
+import 'article_detail_state.dart';
+
+/// Drives the bookmark button of one article's detail screen.
 ///
 /// Created per screen in the page's `BlocProvider` (never registered in
 /// get_it), which also closes it when the page is popped.
@@ -19,8 +20,8 @@ import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/art
 ///   [ArticleDetailStatusFailure], which first shows loading again. Ignored
 ///   once the status is known.
 /// - [ArticleDetailBookmarkToggled]: only from [ArticleDetailReady] with no
-///   toggle in progress, because the repository's toggle is read-then-write
-///   (D12). A failure keeps the shown status and sets `toggleFailure`.
+///   toggle in progress, because the repository's toggle is read-then-write.
+///   A failure keeps the shown status and sets `toggleFailure`.
 interface class ArticleDetailBloc
     extends Bloc<ArticleDetailEvent, ArticleDetailState> {
   /// Creates the bloc in [ArticleDetailLoading] for [article]. Callers pass

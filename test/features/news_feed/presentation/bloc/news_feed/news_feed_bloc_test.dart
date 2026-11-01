@@ -17,8 +17,8 @@ import '../../../../../fixtures/article_builders.dart';
 import '../../../../../helpers/mocks.dart';
 
 // The use cases are `final` classes, so they can't be mocked outside their
-// library: the bloc gets a real `GetTopHeadlines` on a mocked repository
-// (Step 21 plan). Stubs use exact argument values; every test ends with
+// library: the bloc gets a real `GetTopHeadlines` on a mocked repository.
+// Stubs use exact argument values; every test ends with
 // `verifyNoMoreInteractions`.
 
 const String u1 = 'https://example.com/1';
@@ -55,8 +55,7 @@ PaginatedArticles page1() =>
 PaginatedArticles page2() =>
     buildPage(items: articlesOf(<String>[u3, u4]), page: 2, hasMore: false);
 
-/// The repository's cache fallback: always page 1 with `hasMore: false`
-/// (D18).
+/// The repository's cache fallback: always page 1 with `hasMore: false`.
 PaginatedArticles cachedPage() => buildPage(
   items: articlesOf(<String>[u1, u2]),
   page: 1,

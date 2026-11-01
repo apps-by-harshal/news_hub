@@ -31,7 +31,7 @@ const failures.Failure _unexpectedFailure = failures.UnexpectedFailure(
   'diagnostic: boom',
 );
 
-/// `failure.userMessage` copy (D20), spelled out.
+/// `failure.userMessage` copy, spelled out.
 const String _networkCopy =
     "You're offline. Check your connection and try again.";
 const String _unexpectedCopy = 'Something went wrong. Please try again.';

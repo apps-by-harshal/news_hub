@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'mocks.dart';
 
-// Network images in widget tests (Step 22, Q3).
+// Network images in widget tests.
 //
 // `CachedNetworkImage` loads through a `BaseCacheManager`. The default one
 // (`DefaultCacheManager`) needs platform plugins that widget tests don't
@@ -26,7 +26,7 @@ import 'mocks.dart';
 
 /// The loader's only call for a plain (non-`ImageCacheManager`) cache
 /// manager: `getFileStream(url, withProgress: true, headers: null,
-/// key: null)` (cached_network_image 4.0.5, verified Step 22).
+/// key: null)` (verified in cached_network_image 4.0.5).
 void _whenGetFileStream(
   MockCacheManager cacheManager,
   Stream<FileResponse> Function() stream,

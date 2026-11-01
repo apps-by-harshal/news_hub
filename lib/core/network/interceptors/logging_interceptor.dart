@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:news_hub/core/error/exceptions.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
+
+import '../../error/exceptions.dart';
+import '../../logging/app_logger.dart';
 
 /// Logs each request, response and failed request through [AppLogger].
 ///
 /// - `→` request line at `debug`: method, full URL and a redacted **copy** of
 ///   the headers. Dio's own header map is never modified (its
-///   case-insensitive map breaks under `removeWhere`, Step 9b).
+///   case-insensitive map breaks under `removeWhere`).
 /// - `←` response line at `debug`: status, method, path and time taken.
 ///   Bodies are never logged.
 /// - `✕` error line at `warning`: method, path, error type and status.
@@ -14,7 +15,7 @@ import 'package:news_hub/core/logging/app_logger.dart';
 ///   retry attempt (Retry → Logging → Error), so they are skipped; each
 ///   failed request is logged once.
 ///
-/// Reads [DioException] for logging only (CLAUDE.md §3.4). `dio_client.dart`
+/// Reads [DioException] for logging only. `dio_client.dart`
 /// adds this interceptor only when `AppConfig.enableHttpLogging` is true.
 final class LoggingInterceptor extends Interceptor {
   LoggingInterceptor({required this._logger, DateTime Function()? now})

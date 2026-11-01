@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 
-/// Date text shown in the UI (Step 22).
+/// Date text shown in the UI.
 ///
-/// Articles carry `publishedAt` in UTC (D11); the UI shows the reader's
+/// Articles carry `publishedAt` in UTC; the UI shows the reader's
 /// local calendar day, so every method converts with [DateTime.toLocal]
 /// first. Formatting uses intl's default locale (`en_US` until l10n is
 /// planned), whose date symbols are built in, so no

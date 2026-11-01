@@ -10,7 +10,7 @@ import 'package:equatable/equatable.dart';
 /// copy by failure type and never shows [message] raw.
 ///
 /// Naming: outside this file, import it `as failures` so that an unprefixed
-/// `Failure` always means the `Result` variant (CLAUDE.md §3.4, D8).
+/// `Failure` always means the `Result` variant.
 sealed class Failure extends Equatable {
   const Failure(this.message);
 

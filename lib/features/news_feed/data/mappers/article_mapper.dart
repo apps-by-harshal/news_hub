@@ -1,12 +1,12 @@
 import 'dart:math' as math;
 
-import 'package:news_hub/features/news_feed/data/datasources/remote_articles_page.dart';
-import 'package:news_hub/features/news_feed/data/models/article_local_model.dart';
-import 'package:news_hub/features/news_feed/data/models/article_model.dart';
-import 'package:news_hub/features/news_feed/data/models/article_source_model.dart';
-import 'package:news_hub/features/news_feed/data/models/news_response_model.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article_source.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/entities/article_source.dart';
+import '../datasources/remote_articles_page.dart';
+import '../models/article_local_model.dart';
+import '../models/article_model.dart';
+import '../models/article_source_model.dart';
+import '../models/news_response_model.dart';
 
 /// Title NewsAPI uses for moderated articles.
 const String _removedTitle = '[Removed]';
@@ -17,7 +17,7 @@ const String _removedHost = 'removed.com';
 /// NewsAPI's truncation marker at the end of `content`, e.g. `[+2345 chars]`.
 final RegExp _truncationMarker = RegExp(r'\s*\[\+\d+ chars\]\s*$');
 
-/// Maps a raw [ArticleModel] to a domain [Article] (D11).
+/// Maps a raw [ArticleModel] to a domain [Article].
 extension ArticleModelMapper on ArticleModel {
   /// Returns the [Article], or `null` when the article must be dropped.
   ///
@@ -69,7 +69,7 @@ extension ArticleModelListMapper on Iterable<ArticleModel> {
       map((ArticleModel model) => model.toEntityOrNull()).nonNulls.toList();
 }
 
-/// Maps a NewsAPI response envelope to a [RemoteArticlesPage] (D13).
+/// Maps a NewsAPI response envelope to a [RemoteArticlesPage].
 extension NewsResponseModelMapper on NewsResponseModel {
   /// Returns the page of valid articles.
   ///
@@ -82,7 +82,7 @@ extension NewsResponseModelMapper on NewsResponseModel {
   );
 }
 
-/// Maps a domain [Article] to the [ArticleLocalModel] stored in Hive (D13).
+/// Maps a domain [Article] to the [ArticleLocalModel] stored in Hive.
 extension ArticleLocalMapper on Article {
   /// Returns the local model, copying every field and flattening the source
   /// into `sourceId` / `sourceName`. `publishedAt` is copied unchanged, so it

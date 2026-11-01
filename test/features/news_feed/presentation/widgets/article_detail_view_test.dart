@@ -140,7 +140,7 @@ void main() {
   testWidgets('passes its key to the widget tree', (WidgetTester tester) async {
     // Built at run time (not `const`), so the constructor itself runs: the
     // full-suite coverage run misses a constructor only ever called as
-    // `const` (Step 22-3).
+    // `const`.
     final Key key = UniqueKey();
     whenListen(
       bloc,

@@ -30,11 +30,11 @@ const failures.Failure _unexpectedFailure = failures.UnexpectedFailure(
   'diagnostic: boom',
 );
 
-/// `failure.userMessage` copy (D20), spelled out.
+/// `failure.userMessage` copy, spelled out.
 const String _cacheCopy = "Couldn't read or save data on this device.";
 const String _unexpectedCopy = 'Something went wrong. Please try again.';
 
-/// The view's own copy (Step 24), spelled out.
+/// The view's own copy, spelled out.
 const String _title = 'Bookmarks';
 const String _emptyTitle = 'No bookmarks yet';
 const String _emptyHint =

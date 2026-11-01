@@ -1,6 +1,5 @@
 // Events have no fields, so every instance below is built without `const` on
-// purpose: identical const instances would pass without Equatable
-// (agreement 9).
+// purpose: identical const instances would pass without Equatable.
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';

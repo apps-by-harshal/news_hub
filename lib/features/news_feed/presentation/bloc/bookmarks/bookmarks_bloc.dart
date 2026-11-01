@@ -1,14 +1,15 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/core/usecase/usecase.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/get_bookmarks.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_state.dart';
 
-/// The bookmarks screen's logic (Step 24, D19, D23).
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../../../core/result/result.dart';
+import '../../../../../core/usecase/usecase.dart';
+import '../../../domain/entities/article.dart';
+import '../../../domain/usecases/get_bookmarks.dart';
+import 'bookmarks_event.dart';
+import 'bookmarks_state.dart';
+
+/// The bookmarks screen's logic.
 ///
 /// - [BookmarksStarted] reads the bookmarks once, from the initial
 ///   [BookmarksLoading]; it is ignored in any other state.
@@ -20,8 +21,8 @@ import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmark
 /// Both events are `droppable`: a second one while the first runs is dropped,
 /// never cancels the first (a cancelled Retry could leave the screen in
 /// `BookmarksLoading`). Neither can run while the other does, so no request id
-/// is needed. Created by the page's `BlocProvider`, never registered in get_it
-/// (D19); `interface class` so widget tests can mock it.
+/// is needed. Created by the page's `BlocProvider`, never registered in get_it;
+/// `interface class` so widget tests can mock it.
 interface class BookmarksBloc extends Bloc<BookmarksEvent, BookmarksState> {
   /// Creates the bloc. Callers pass `getBookmarks:`.
   BookmarksBloc({required this._getBookmarks})

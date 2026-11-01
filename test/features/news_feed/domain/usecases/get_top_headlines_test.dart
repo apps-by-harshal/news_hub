@@ -9,7 +9,7 @@ import 'package:news_hub/features/news_feed/domain/usecases/get_top_headlines.da
 
 import '../../../../helpers/mocks.dart';
 
-/// Builds [GetTopHeadlinesParams] at runtime (agreement 9).
+/// Builds [GetTopHeadlinesParams] at runtime.
 GetTopHeadlinesParams buildParams({
   NewsCategory category = NewsCategory.business,
   int page = 2,

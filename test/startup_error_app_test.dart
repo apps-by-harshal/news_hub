@@ -37,7 +37,7 @@ void main() {
       WidgetTester tester,
     ) async {
       // Built at run time on purpose: a const-only constructor shows as an
-      // uncovered line in the full-suite run (agreement 47).
+      // uncovered line in the full-suite run.
       final Key key = UniqueKey();
 
       await tester.pumpWidget(StartupErrorApp(key: key));

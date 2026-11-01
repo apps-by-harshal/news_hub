@@ -4,7 +4,7 @@ import 'package:news_hub/features/news_feed/domain/entities/article.dart';
 import 'package:news_hub/features/news_feed/domain/entities/article_source.dart';
 
 /// Builds an article whose every field is derived from [url], so no
-/// constructor call has only literal arguments (agreement 9).
+/// constructor call has only literal arguments.
 Article buildArticle(String url) => Article(
   url: url,
   title: 'Title for $url',
@@ -16,7 +16,7 @@ Article buildArticle(String url) => Article(
   imageUrl: null,
 );
 
-/// Builds a page at runtime (never `const`, agreement 9).
+/// Builds a page at runtime (never `const`).
 RemoteArticlesPage buildPage({
   List<String> urls = const <String>[
     'https://example.com/a',

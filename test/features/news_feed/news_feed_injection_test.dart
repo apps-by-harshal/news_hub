@@ -91,7 +91,7 @@ void main() {
       expectSameOnEveryRead<GetBookmarks>();
     });
 
-    test('registers no bloc (blocs live in BlocProvider, D19)', () {
+    test('registers no bloc (blocs live in BlocProvider)', () {
       registerNewsFeedModule(container);
 
       expect(container.isRegistered<NewsFeedBloc>(), isFalse);

@@ -1,14 +1,14 @@
-import 'package:news_hub/features/news_feed/data/datasources/remote_articles_page.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
+import '../../domain/entities/news_category.dart';
+import 'remote_articles_page.dart';
 
 /// Remote source of news articles (NewsAPI.org).
 ///
-/// Speaks entities: the implementation (`NewsRemoteDataSourceImpl`, Step 19)
+/// Speaks entities: the implementation (`NewsRemoteDataSourceImpl`)
 /// maps the API DTOs to [RemoteArticlesPage], dropping invalid and moderated
 /// articles, so callers never see a model.
 ///
 /// Every method throws an `AppException` subtype on failure (the
-/// implementation wraps each API call in `guardApiCall`, D10):
+/// implementation wraps each API call in `guardApiCall`):
 /// - `NetworkException`: no connection, timeout, cancelled, bad certificate.
 /// - `UnauthorizedException`: HTTP 401 (missing or invalid API key).
 /// - `ServerException`: any other non-2xx response (including 429), or an
@@ -17,12 +17,12 @@ import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
 ///
 /// Preconditions for all methods: `page >= 1` (1-based) and `pageSize >= 1`.
 /// The page size is chosen by the caller (the repository passes
-/// `AppConstants.newsPageSize`, Step 20).
+/// `AppConstants.newsPageSize`).
 abstract interface class NewsRemoteDataSource {
   /// Fetches one page of top headlines for [category].
   ///
   /// The implementation maps [category] to the API's category string with an
-  /// exhaustive `switch` (D12), never with `.name`.
+  /// exhaustive `switch`, never with `.name`.
   ///
   /// When [forceRefresh] is `true` the HTTP cache is bypassed and the fresh
   /// response replaces the cached one; when `false` a cached response younger

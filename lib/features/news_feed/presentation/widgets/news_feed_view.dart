@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/utils/failure_message.dart';
-import 'package:news_hub/core/widgets/app_error_view.dart';
-import 'package:news_hub/core/widgets/app_loading_indicator.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_bloc.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_state.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/article_list_tile.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/category_chips.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/offline_banner.dart';
+
+import '../../../../core/error/failures.dart' as failures;
+import '../../../../core/utils/failure_message.dart';
+import '../../../../core/widgets/app_error_view.dart';
+import '../../../../core/widgets/app_loading_indicator.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/entities/news_category.dart';
+import '../bloc/news_feed/news_feed_bloc.dart';
+import '../bloc/news_feed/news_feed_event.dart';
+import '../bloc/news_feed/news_feed_state.dart';
+import 'article_list_tile.dart';
+import 'category_chips.dart';
+import 'offline_banner.dart';
 
 /// The feed screen: category chips, the offline banner and the article list,
-/// all driven by the [NewsFeedBloc] above it (D20).
+/// all driven by the [NewsFeedBloc] above it.
 ///
 /// It reads state and sends events only; the page creates the bloc and sends
 /// `NewsFeedStarted`, and navigation arrives through [onArticleTap] and
@@ -29,7 +30,7 @@ class NewsFeedView extends StatelessWidget {
   /// Called with the article whose row was tapped.
   final ValueChanged<Article> onArticleTap;
 
-  /// Called when the Bookmarks button in the app bar is tapped (Step 24).
+  /// Called when the Bookmarks button in the app bar is tapped.
   final VoidCallback onBookmarksTap;
 
   @override

@@ -1,4 +1,4 @@
-/// Application-wide logging contract (CLAUDE.md §4.3).
+/// Application-wide logging contract.
 ///
 /// Every file logs through an injected [AppLogger]; `print()` and
 /// `debugPrint()` are forbidden. Pure Dart with no imports, so any layer may

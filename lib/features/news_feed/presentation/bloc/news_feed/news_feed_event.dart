@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
+
+import '../../../domain/entities/news_category.dart';
 
 /// Input to `NewsFeedBloc`: what the feed screen asks for.
 ///
-/// Each subtype has its own handler and event transformer in the bloc
-/// (Step 21). Events carry only what the user chose; page numbers and the
+/// Each subtype has its own handler and event transformer in the bloc.
+/// Events carry only what the user chose; page numbers and the
 /// current category come from the bloc's state.
 sealed class NewsFeedEvent extends Equatable {
   const NewsFeedEvent();

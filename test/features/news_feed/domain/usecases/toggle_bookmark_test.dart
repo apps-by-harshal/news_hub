@@ -11,7 +11,7 @@ import '../../../../helpers/mocks.dart';
 /// Builds an [Article] at runtime that differs only by [url].
 ///
 /// [sourceName] is a parameter so the nested `ArticleSource` is never
-/// const-eligible (agreement 9, and keeps `prefer_const_constructors` quiet).
+/// const-eligible (and keeps `prefer_const_constructors` quiet).
 Article buildArticle(String url, {String sourceName = 'BBC News'}) {
   return Article(
     url: url,

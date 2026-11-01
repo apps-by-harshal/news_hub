@@ -1,4 +1,4 @@
-// States are built without `const` on purpose (agreement 9): identical const
+// States are built without `const` on purpose: identical const
 // instances would pass equality tests even without `Equatable`.
 // ignore_for_file: prefer_const_constructors
 
@@ -50,7 +50,7 @@ NewsFeedLoaded buildLoaded({
   refreshFailure: refreshFailure,
 );
 
-/// Exhaustive switch with no default branch (agreement 10): adding a state
+/// Exhaustive switch with no default branch: adding a state
 /// subtype breaks compilation here until the test handles it.
 String describe(NewsFeedState state) => switch (state) {
   NewsFeedInitial(:final NewsCategory category) => 'initial ${category.name}',

@@ -1,8 +1,9 @@
 import 'package:hive_ce/hive_ce.dart';
-import 'package:news_hub/core/error/exceptions.dart';
 
-/// Runs one local-storage [call] and maps Hive failures to [CacheException]
-/// (Step 17a), the storage counterpart of `guardApiCall` (D10).
+import '../error/exceptions.dart';
+
+/// Runs one local-storage [call] and maps Hive failures to [CacheException],
+/// the storage counterpart of `guardApiCall`.
 ///
 /// - `HiveError` (an `Error`, not an `Exception`: closed box, missing
 ///   adapter, corrupt file, …) →

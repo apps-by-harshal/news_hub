@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:news_hub/core/config/app_config.dart';
-import 'package:news_hub/core/config/app_constants.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/network/interceptors/api_key_interceptor.dart';
-import 'package:news_hub/core/network/interceptors/error_interceptor.dart';
-import 'package:news_hub/core/network/interceptors/logging_interceptor.dart';
-import 'package:news_hub/core/network/interceptors/retry_interceptor.dart';
 
-/// Builds the `Dio` used for every NewsAPI call (Retrofit client, Step 18).
+import '../config/app_config.dart';
+import '../config/app_constants.dart';
+import '../logging/app_logger.dart';
+import 'interceptors/api_key_interceptor.dart';
+import 'interceptors/error_interceptor.dart';
+import 'interceptors/logging_interceptor.dart';
+import 'interceptors/retry_interceptor.dart';
+
+/// Builds the `Dio` used for every NewsAPI call (Retrofit client).
 ///
 /// Interceptor order, which every other network file relies on:
 ///
@@ -18,12 +19,12 @@ import 'package:news_hub/core/network/interceptors/retry_interceptor.dart';
 /// 3. [RetryInterceptor] retries temporary failures through this same `Dio`.
 /// 4. [LoggingInterceptor], only when [AppConfig.enableHttpLogging] is true.
 /// 5. [ErrorInterceptor] last, so every failure is mapped to an
-///    `AppException` exactly once (D10).
+///    `AppException` exactly once.
 ///
-/// [retryDelay] exists for tests only (no real clock, CLAUDE.md §5);
+/// [retryDelay] exists for tests only (no real clock);
 /// production leaves it out and gets the real backoff.
 ///
-/// Registered in Step 12.
+/// Registered in `core_module.dart`.
 Dio createDioClient({
   required AppConfig config,
   required AppLogger logger,

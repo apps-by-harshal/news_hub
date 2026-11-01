@@ -24,7 +24,7 @@ List<Article> buildArticles(String prefix, int count) {
   );
 }
 
-/// Builds a remote page at runtime (agreement 9).
+/// Builds a remote page at runtime.
 RemoteArticlesPage buildRemotePage(
   List<Article> articles, {
   int totalResults = 38,
@@ -32,7 +32,7 @@ RemoteArticlesPage buildRemotePage(
   return RemoteArticlesPage(articles: articles, totalResults: totalResults);
 }
 
-/// Builds the expected domain page at runtime (agreement 9).
+/// Builds the expected domain page at runtime.
 PaginatedArticles buildPage(
   List<Article> items, {
   required int page,
@@ -48,7 +48,7 @@ PaginatedArticles buildPage(
 }
 
 /// `Result` values are built through functions, so the tests do not depend
-/// on whether the `Result` constructors are `const` (Step 15 pattern).
+/// on whether the `Result` constructors are `const`.
 Result<PaginatedArticles> pageSuccess(PaginatedArticles page) {
   return Success<PaginatedArticles>(page);
 }

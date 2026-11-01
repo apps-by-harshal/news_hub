@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
 
-/// Logs navigation through [AppLogger] at debug level (Step 22a).
+import '../logging/app_logger.dart';
+
+/// Logs navigation through [AppLogger] at debug level.
 ///
 /// Only route **names** are logged, never `RouteSettings.arguments` or a
 /// router's `extra`: those can carry whole entities (the article page gets

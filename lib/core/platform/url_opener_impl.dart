@@ -1,12 +1,12 @@
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/platform/url_opener.dart';
+import '../logging/app_logger.dart';
+import 'url_opener.dart';
 
 /// The launcher [UrlOpenerImpl] calls: url_launcher's `launchUrl` in the app
 /// (its optional named parameters keep their defaults, so the platform
 /// chooses how to open the link), a recording fake in tests.
 typedef LaunchUrlFunction = Future<bool> Function(Uri url);
 
-/// [UrlOpener] backed by url_launcher (Step 25, D24).
+/// [UrlOpener] backed by url_launcher.
 ///
 /// `core_module.dart` registers it with the `launchUrl` tear-off, so nothing
 /// reaches the plugin until a link is opened (the same pattern as

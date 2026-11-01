@@ -48,7 +48,7 @@ app.*.map.json
 .widget_preview/
 
 # ---------------------------------------------------------------------------
-# News Hub — project rules (see CLAUDE.md §6–7)
+# News Hub — project rules
 # ---------------------------------------------------------------------------
 
 # Environment files hold real API keys: never commit them.
@@ -56,4 +56,7 @@ app.*.map.json
 /env/*.json
 !/env/*.example.json
 
-# Generated code (*.g.dart) is intentionally NOT ignored: it is committed (D6).
+# Generated code (*.g.dart) is intentionally NOT ignored: it is committed.
+
+# Verification output written during development: never committed.
+/step*.txt

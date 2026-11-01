@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:news_hub/features/news_feed/data/models/article_model.dart';
+
+import 'article_model.dart';
 
 part 'news_response_model.g.dart';
 
@@ -13,7 +14,7 @@ part 'news_response_model.g.dart';
 ///
 /// Generated with `checked: true`, so a field of the wrong type, including
 /// a nested article field, throws a [CheckedFromJsonException] naming the
-/// key; `guardApiCall` turns it into a `ParsingException` (D10).
+/// key; `guardApiCall` turns it into a `ParsingException`.
 @JsonSerializable(checked: true, createToJson: false)
 final class NewsResponseModel extends Equatable {
   const NewsResponseModel({

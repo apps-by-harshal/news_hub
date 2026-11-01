@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:news_hub/features/news_feed/data/models/news_response_model.dart';
 import 'package:retrofit/retrofit.dart';
+
+import '../models/news_response_model.dart';
 
 part 'news_api_service.g.dart';
 
 /// Retrofit client for NewsAPI's `/top-headlines` and `/everything`.
 ///
-/// A thin mirror of the raw API (D16): parameters carry the API's own names
-/// and string values. `NewsRemoteDataSourceImpl` (Step 19) maps
+/// A thin mirror of the raw API: parameters carry the API's own names
+/// and string values. `NewsRemoteDataSourceImpl` maps
 /// `NewsCategory` to the `category` string with an exhaustive `switch`,
 /// chooses the page size, builds the cache extras, and wraps every call in
-/// `guardApiCall` (D10).
+/// `guardApiCall`.
 ///
 /// **Base URL.** Taken from the injected [Dio]'s `BaseOptions.baseUrl`
 /// (`createDioClient` sets it from `AppConfig.apiBaseUrl`); never hard-coded
@@ -54,7 +55,7 @@ abstract class NewsApiService {
   /// `GET /everything?q=…&page=…&pageSize=…`.
   ///
   /// [query] is sent as `q`, URL-encoded by Dio. The caller passes a
-  /// trimmed, non-blank query (D12).
+  /// trimmed, non-blank query.
   @GET('/everything')
   Future<NewsResponseModel> searchArticles({
     @Query('q') required String query,

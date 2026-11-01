@@ -15,7 +15,7 @@ import '../../../../../fixtures/article_builders.dart';
 import '../../../../../helpers/mocks.dart';
 
 // The use cases are `final` classes, so the bloc gets real `GetBookmarkStatus`
-// and `ToggleBookmark` on a mocked repository (Step 21 plan). Stubs use exact
+// and `ToggleBookmark` on a mocked repository. Stubs use exact
 // values (the article compares by value); every test ends with
 // `verifyNoMoreInteractions`.
 

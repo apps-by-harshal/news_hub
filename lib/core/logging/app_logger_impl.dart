@@ -1,15 +1,17 @@
 import 'package:logger/logger.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/logging/log_level.dart';
+
+import 'app_logger.dart';
+import 'log_level.dart';
 
 /// [AppLogger] backed by the `logger` package.
 ///
-/// Registered in Step 12 as `AppLoggerImpl(minLevel: config.logLevel)`.
+/// Registered in `core_module.dart` as
+/// `AppLoggerImpl(minLevel: config.logLevel)`.
 /// [output] and [printer] exist so tests can capture events in memory; app
 /// code leaves them null and gets the console with a quiet pretty printer.
 ///
 /// Uses `ProductionFilter`, so [minLevel] is applied the same way in every
-/// build mode. Release-build logging policy is revisited with D7.
+/// build mode. Release-build logging policy is revisited with staging/prod.
 final class AppLoggerImpl implements AppLogger {
   AppLoggerImpl({
     required LogLevel minLevel,

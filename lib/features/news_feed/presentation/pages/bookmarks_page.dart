@@ -2,14 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/di/injection_container.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/get_bookmarks.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_bloc.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_event.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/bookmarks_view.dart';
 
-/// The bookmarks route's page (Step 24, D19, D20, D23).
+import '../../../../core/di/injection_container.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/usecases/get_bookmarks.dart';
+import '../bloc/bookmarks/bookmarks_bloc.dart';
+import '../bloc/bookmarks/bookmarks_event.dart';
+import '../widgets/bookmarks_view.dart';
+
+/// The bookmarks route's page.
 ///
 /// Creates the screen's [BookmarksBloc] from the get_it use case, starts it,
 /// and lets [BlocProvider] close it when the page leaves the tree.

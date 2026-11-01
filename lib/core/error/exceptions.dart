@@ -1,13 +1,14 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
+
+import 'failures.dart' as failures;
 
 /// Typed error thrown by the data layer (data sources, interceptors).
 ///
 /// Never crosses into domain or presentation: repositories catch it and
 /// return `Result<T>` carrying [AppExceptionMapping.toFailure].
 ///
-/// `DioException` is converted into these only in `error_interceptor.dart`
-/// (CLAUDE.md §3.4, D10). Config errors use `FormatException` instead.
+/// `DioException` is converted into these only in `error_interceptor.dart`.
+/// Config errors use `FormatException` instead.
 ///
 /// [message] is diagnostic text for logs and must never contain secrets.
 sealed class AppException extends Equatable implements Exception {

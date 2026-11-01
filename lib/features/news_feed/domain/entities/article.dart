@@ -1,18 +1,18 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article_source.dart';
+
+import 'article_source.dart';
 
 /// A news article as the app uses it.
 ///
 /// Pure domain value: no serialization. The data layer maps NewsAPI's
-/// article object onto this and drops records that break its guarantees
-/// (D11):
+/// article object onto this and drops records that break its guarantees:
 /// - [url], [title], [source] and [publishedAt] are always present.
 ///   Articles missing any of them, and `[Removed]` placeholders, never
 ///   reach the domain.
 /// - [publishedAt] is in UTC. `DateTime ==` also compares `isUtc`, so the
 ///   mapper must normalise it.
 ///
-/// [url] is the article's identity (D1): it is the Hive key, and code that
+/// [url] is the article's identity: it is the Hive key, and code that
 /// asks "is this the same article?" compares [url]. `==` compares every
 /// field, so an updated article (new title, new image) counts as a change.
 final class Article extends Equatable {
@@ -29,7 +29,7 @@ final class Article extends Equatable {
     required this.imageUrl,
   });
 
-  /// The article's web address, and its identity (D1).
+  /// The article's web address, and its identity.
   final String url;
 
   /// The headline.

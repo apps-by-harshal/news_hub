@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:news_hub/features/news_feed/data/models/article_source_model.dart';
+
+import 'article_source_model.dart';
 
 part 'article_model.g.dart';
 
@@ -8,11 +9,11 @@ part 'article_model.g.dart';
 ///
 /// Mirrors the API exactly: every field is nullable, `urlToImage` keeps its
 /// API name, and `publishedAt` stays the raw string. The article mapper
-/// (`article_mapper.dart`) validates, renames and normalises (D11).
+/// (`article_mapper.dart`) validates, renames and normalises.
 ///
 /// Generated with `checked: true`, so a field of the wrong type throws a
 /// [CheckedFromJsonException] naming the key; `guardApiCall` turns it into
-/// a `ParsingException` (D10).
+/// a `ParsingException`.
 @JsonSerializable(checked: true, createToJson: false)
 final class ArticleModel extends Equatable {
   const ArticleModel({

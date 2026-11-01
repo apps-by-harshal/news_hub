@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_hub/core/utils/date_formatter.dart';
-import 'package:news_hub/core/widgets/app_network_image.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
+
+import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/widgets/app_network_image.dart';
+import '../../domain/entities/article.dart';
 
 /// One feed row: the title (at most two lines), `source · date` underneath,
 /// and a 96×72 thumbnail on the trailing side.

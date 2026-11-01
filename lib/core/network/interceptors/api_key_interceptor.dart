@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 /// Sends the NewsAPI key in the [headerName] header on every request.
 ///
 /// The key never goes in a query parameter, so it stays out of URLs, logs
-/// and HTTP cache keys (working agreement 6). It is first in the interceptor
+/// and HTTP cache keys. It is first in the interceptor
 /// chain, so the logging interceptor must redact [headerName].
 ///
 /// Dio keeps request headers in a case-insensitive map, so assigning
@@ -11,7 +11,7 @@ import 'package:dio/dio.dart';
 /// second header (covered by a test).
 ///
 /// Validating the key is `AppConfig`'s job; this class only applies it.
-/// Registered in Step 12 with `AppConfig.apiKey`.
+/// Registered in `dio_client.dart` with `AppConfig.apiKey`.
 final class ApiKeyInterceptor extends Interceptor {
   ApiKeyInterceptor({required this._apiKey});
 

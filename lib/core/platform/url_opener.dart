@@ -1,4 +1,4 @@
-/// Opens a web link outside the app's own screens (Step 25, D24).
+/// Opens a web link outside the app's own screens.
 ///
 /// The article detail screen uses it for "Open full article". It is pure
 /// Dart with no imports, so widget and page tests replace it with a mocktail

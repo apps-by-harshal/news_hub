@@ -3,19 +3,20 @@ import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
-import 'package:news_hub/core/config/app_config.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/logging/app_logger_impl.dart';
-import 'package:news_hub/core/network/cache/http_cache_config.dart';
-import 'package:news_hub/core/network/dio_client.dart';
-import 'package:news_hub/core/network/network_info.dart';
-import 'package:news_hub/core/network/network_info_impl.dart';
-import 'package:news_hub/core/platform/url_opener.dart';
-import 'package:news_hub/core/platform/url_opener_impl.dart';
-import 'package:news_hub/core/storage/local_database.dart';
-import 'package:news_hub/core/storage/local_database_impl.dart';
-import 'package:news_hub/hive_registrar.g.dart';
 import 'package:url_launcher/url_launcher.dart' show launchUrl;
+
+import '../../hive_registrar.g.dart';
+import '../config/app_config.dart';
+import '../logging/app_logger.dart';
+import '../logging/app_logger_impl.dart';
+import '../network/cache/http_cache_config.dart';
+import '../network/dio_client.dart';
+import '../network/network_info.dart';
+import '../network/network_info_impl.dart';
+import '../platform/url_opener.dart';
+import '../platform/url_opener_impl.dart';
+import '../storage/local_database.dart';
+import '../storage/local_database_impl.dart';
 
 /// Registers the shared, feature-agnostic services in [getIt].
 ///
@@ -26,14 +27,14 @@ import 'package:url_launcher/url_launcher.dart' show launchUrl;
 /// Everything except [config] is a lazy singleton: nothing is built until it
 /// is first requested, and every lookup returns the same instance.
 ///
-/// [LocalDatabase] (Step 17a) is a lazy [LocalDatabaseImpl] over [Hive],
+/// [LocalDatabase] is a lazy [LocalDatabaseImpl] over [Hive],
 /// given the `Hive.initFlutter` and `Hive.registerAdapters` tear-offs, so
 /// nothing touches Hive until `initDependencies` awaits `init()`. As the
 /// composition root, `core/di/` is the only part of `core/` that may import
-/// the generated `hive_registrar.g.dart` (CLAUDE.md §3.1). Tests pass
+/// the generated `hive_registrar.g.dart`. Tests pass
 /// [localDatabase] to register a fake instead.
 ///
-/// [UrlOpener] (Step 25, D24) is a lazy [UrlOpenerImpl] given url_launcher's
+/// [UrlOpener] is a lazy [UrlOpenerImpl] given url_launcher's
 /// `launchUrl` tear-off, so resolving it never touches the plugin; the link
 /// opens only when `open` is called.
 void registerCoreModule(

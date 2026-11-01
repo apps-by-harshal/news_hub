@@ -4,8 +4,7 @@ import 'package:equatable/equatable.dart';
 ///
 /// Events carry no article: the bloc is created for one article (in the
 /// page's `BlocProvider`) and takes it in its constructor. Both events are
-/// handled with `droppable`, so a tap while one is in progress is ignored
-/// (D12).
+/// handled with `droppable`, so a tap while one is in progress is ignored.
 sealed class ArticleDetailEvent extends Equatable {
   const ArticleDetailEvent();
 

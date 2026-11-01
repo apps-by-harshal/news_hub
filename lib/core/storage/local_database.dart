@@ -1,10 +1,10 @@
 import 'package:hive_ce/hive_ce.dart';
 
-/// The app's local Hive database (Step 17a).
+/// The app's local Hive database.
 ///
 /// Feature-agnostic: it knows no box names, models or adapters. Features own
 /// their box names and open their boxes through [openBox] (the news_feed
-/// local data source, Step 19). The adapters to register are passed to the
+/// local data source). The adapters to register are passed to the
 /// implementation by the composition root (`core/di/`), because the
 /// generated `lib/hive_registrar.g.dart` imports feature models.
 ///

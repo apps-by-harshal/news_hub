@@ -1,12 +1,13 @@
 import 'package:hive_ce/hive_ce.dart';
-import 'package:news_hub/core/storage/local_database.dart';
-import 'package:news_hub/core/storage/storage_guard.dart';
-import 'package:news_hub/features/news_feed/data/datasources/news_local_data_source.dart';
-import 'package:news_hub/features/news_feed/data/mappers/article_mapper.dart';
-import 'package:news_hub/features/news_feed/data/models/article_local_model.dart';
-import 'package:news_hub/features/news_feed/data/models/cached_articles_local_model.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
+
+import '../../../../core/storage/local_database.dart';
+import '../../../../core/storage/storage_guard.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/entities/news_category.dart';
+import '../mappers/article_mapper.dart';
+import '../models/article_local_model.dart';
+import '../models/cached_articles_local_model.dart';
+import 'news_local_data_source.dart';
 
 /// Hive box holding one [CachedArticlesLocalModel] per category key.
 /// Persisted name: renaming it orphans every user's cached feed.
@@ -16,8 +17,7 @@ const String _cacheBoxName = 'articles_cache';
 /// auto-increment keys. Persisted name: renaming it loses every bookmark.
 const String _bookmarksBoxName = 'bookmarks';
 
-/// [NewsLocalDataSource] over Hive, through the app's [LocalDatabase]
-/// (Step 19, D13, D15).
+/// [NewsLocalDataSource] over Hive, through the app's [LocalDatabase].
 ///
 /// - Boxes are opened on every call ([LocalDatabase.openBox] returns the
 ///   already-open box), and every call runs inside [guardStorageCall], so a
@@ -30,7 +30,7 @@ const String _bookmarksBoxName = 'bookmarks';
 ///   The URL is not the key because Hive limits String keys to 255 UTF-8
 ///   bytes and checks that only in debug builds. Lookups scan the open box
 ///   in memory, which is fine for a user's bookmark count. The list is read
-///   newest first: reverse key order (Step 24).
+///   newest first: reverse key order.
 final class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   /// Creates the data source. [localDatabase] must have completed `init()`.
   const NewsLocalDataSourceImpl({required this._localDatabase});

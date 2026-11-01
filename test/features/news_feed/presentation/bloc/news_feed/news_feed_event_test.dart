@@ -1,5 +1,5 @@
 // Events with no fields have `const` constructors. Equality tests build them
-// without `const` on purpose (agreement 9): identical const instances would
+// without `const` on purpose: identical const instances would
 // pass even without `Equatable`.
 // ignore_for_file: prefer_const_constructors
 
@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_event.dart';
 
-/// Exhaustive switch with no default branch (agreement 10): adding an event
+/// Exhaustive switch with no default branch: adding an event
 /// subtype breaks compilation here until the test handles it.
 String describe(NewsFeedEvent event) => switch (event) {
   NewsFeedStarted() => 'started',

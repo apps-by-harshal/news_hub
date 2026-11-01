@@ -1,24 +1,24 @@
 import 'dart:math' as math;
 
-import 'package:news_hub/core/config/app_constants.dart';
-import 'package:news_hub/core/error/exceptions.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/network/network_info.dart';
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/features/news_feed/data/datasources/news_local_data_source.dart';
-import 'package:news_hub/features/news_feed/data/datasources/news_remote_data_source.dart';
-import 'package:news_hub/features/news_feed/data/datasources/remote_articles_page.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
-import 'package:news_hub/features/news_feed/domain/entities/paginated_articles.dart';
-import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
+import '../../../../core/config/app_constants.dart';
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failures.dart' as failures;
+import '../../../../core/logging/app_logger.dart';
+import '../../../../core/network/network_info.dart';
+import '../../../../core/result/result.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/entities/news_category.dart';
+import '../../domain/entities/paginated_articles.dart';
+import '../../domain/repositories/news_repository.dart';
+import '../datasources/news_local_data_source.dart';
+import '../datasources/news_remote_data_source.dart';
+import '../datasources/remote_articles_page.dart';
 
 /// Message of the `NetworkFailure` returned when [NetworkInfo] reports no
 /// connection and nothing cached can be served instead.
 const String _offlineMessage = 'No network connection';
 
-/// [NewsRepository] backed by NewsAPI (remote) and Hive (local), D12.
+/// [NewsRepository] backed by NewsAPI (remote) and Hive (local).
 ///
 /// - **Top headlines:** network-first with a cache fallback on page 1.
 ///   [NetworkInfo] is only a fast-path hint: when it reports no connection
@@ -27,10 +27,10 @@ const String _offlineMessage = 'No network connection';
 ///   like being offline).
 /// - **Search:** network only, never persisted.
 /// - **Bookmarks:** local only. Toggling is read-then-write; the list comes
-///   back newest first, as stored (Step 24).
+///   back newest first, as stored.
 ///
 /// Every method returns a [Result] and never throws. An [AppException]
-/// becomes `Failure(e.toFailure())` without logging (D9); anything else is
+/// becomes `Failure(e.toFailure())` without logging; anything else is
 /// logged as an error and becomes `failures.UnexpectedFailure`.
 final class NewsRepositoryImpl implements NewsRepository {
   const NewsRepositoryImpl({
@@ -135,7 +135,7 @@ final class NewsRepositoryImpl implements NewsRepository {
     });
   }
 
-  /// Runs [body], turning an [AppException] into its domain failure (D9)
+  /// Runs [body], turning an [AppException] into its domain failure
   /// and anything else into a logged `failures.UnexpectedFailure` whose
   /// message names [operation].
   Future<Result<T>> _guard<T>(
@@ -153,7 +153,7 @@ final class NewsRepositoryImpl implements NewsRepository {
     }
   }
 
-  /// The cache fallback after [remoteError] (D9, D12).
+  /// The cache fallback after [remoteError].
   ///
   /// Returns the cached feed for [category] as `page: 1, hasMore: false,
   /// isFromCache: true`. Returns the failure for [remoteError] instead when
@@ -201,7 +201,7 @@ final class NewsRepositoryImpl implements NewsRepository {
     );
   }
 
-  /// Persists a freshly fetched page. A failure never fails the call (D12):
+  /// Persists a freshly fetched page. A failure never fails the call:
   /// a `CacheException` is logged as a warning, anything else as an error.
   Future<void> _persist({
     required NewsCategory category,
@@ -241,7 +241,7 @@ PaginatedArticles _freshPage(RemoteArticlesPage remotePage, int page) {
   );
 }
 
-/// Whether another page can be requested (D11): based on the API's
+/// Whether another page can be requested: based on the API's
 /// `totalResults`, capped at [AppConstants.newsMaxResults], never on how
 /// many articles survived mapping.
 bool _hasMore({required int page, required int totalResults}) {

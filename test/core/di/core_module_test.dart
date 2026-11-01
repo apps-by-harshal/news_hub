@@ -111,7 +111,7 @@ void main() {
     test('resolves UrlOpener to UrlOpenerImpl', () {
       // Resolving only builds the object: url_launcher's launchUrl is passed
       // as a tear-off and runs only when a link is opened, so no plugin is
-      // touched here (Step 25, D24).
+      // touched here.
       registerCoreModule(getIt, config: _config());
 
       expect(getIt<UrlOpener>(), isA<UrlOpenerImpl>());

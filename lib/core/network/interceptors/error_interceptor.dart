@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:news_hub/core/error/exceptions.dart';
 
-/// The single place where a [DioException] becomes an [AppException] (D10).
+import '../../error/exceptions.dart';
+
+/// The single place where a [DioException] becomes an [AppException].
 ///
 /// Added last in the interceptor chain, so retries and the HTTP cache see the
 /// raw error first. It passes the error on with [ErrorInterceptorHandler.next]
@@ -31,9 +32,9 @@ final class ErrorInterceptor extends Interceptor {
 ///   a [ParsingException]: Dio casts the body to the requested type after
 ///   the interceptor chain has run, so [ErrorInterceptor] never sees it, and
 ///   Dio wraps the resulting [TypeError] in a `DioExceptionType.unknown`
-///   (dio 5.11.1, `DioMixin.fetch` → `assureResponse`; Step 19).
+///   (dio 5.11.1, `DioMixin.fetch` → `assureResponse`).
 /// - An [AppException] and any other error propagate unchanged, so the
-///   repository's catch-all can log them as an unexpected failure (D9).
+///   repository's catch-all can log them as an unexpected failure.
 ///
 /// Original stack traces are kept. Wrap exactly one API call per invocation,
 /// so that catching [TypeError] cannot hide unrelated bugs.

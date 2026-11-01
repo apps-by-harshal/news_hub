@@ -8,7 +8,7 @@ import 'package:news_hub/features/news_feed/domain/usecases/search_articles.dart
 
 import '../../../../helpers/mocks.dart';
 
-/// Builds [SearchArticlesParams] at runtime (agreement 9).
+/// Builds [SearchArticlesParams] at runtime.
 SearchArticlesParams buildParams({String query = 'flutter', int page = 2}) {
   return SearchArticlesParams(query: query, page: page);
 }

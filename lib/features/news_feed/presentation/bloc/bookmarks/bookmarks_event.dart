@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-/// Something that happened on the bookmarks screen (Step 24, D19).
+/// Something that happened on the bookmarks screen.
 ///
 /// Neither event carries data: the screen always lists every bookmark.
 sealed class BookmarksEvent extends Equatable {

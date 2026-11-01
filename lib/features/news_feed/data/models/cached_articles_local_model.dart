@@ -1,11 +1,11 @@
-import 'package:news_hub/features/news_feed/data/models/article_local_model.dart';
+import 'article_local_model.dart';
 
 /// One category's cached top headlines, as stored in the `articles_cache`
-/// Hive box (one value per category key, D13).
+/// Hive box (one value per category key).
 ///
 /// A wrapper instead of a bare `List`: Hive reads a bare list value back as
 /// `List<dynamic>`, while the adapter generated for this class (from
-/// `lib/hive_adapters.dart`, Step 17a) casts [articles] to
+/// `lib/hive_adapters.dart`) casts [articles] to
 /// `List<ArticleLocalModel>`, so the box stays fully typed.
 ///
 /// Plain class, like [ArticleLocalModel]: field indices are pinned by name
@@ -16,6 +16,6 @@ final class CachedArticlesLocalModel {
   const CachedArticlesLocalModel({required this.articles});
 
   /// The cached articles in feed order: page 1 first, later pages appended,
-  /// at most one entry per URL (D13).
+  /// at most one entry per URL.
   final List<ArticleLocalModel> articles;
 }

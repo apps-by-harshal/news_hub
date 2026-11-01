@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
 
-/// What the bookmarks screen shows (Step 24, D19).
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../domain/entities/article.dart';
+
+/// What the bookmarks screen shows.
 sealed class BookmarksState extends Equatable {
   const BookmarksState();
 }
@@ -20,7 +21,7 @@ final class BookmarksLoading extends BookmarksState {
 /// bookmarked.
 ///
 /// [refreshFailure] is set when reading the bookmarks again failed: the list
-/// on screen stays, and the view shows the failure once (CLAUDE.md §4.5).
+/// on screen stays, and the view shows the failure once.
 final class BookmarksLoaded extends BookmarksState {
   /// Keeps an unmodifiable copy of [articles], so the state can't change
   /// after it is emitted.

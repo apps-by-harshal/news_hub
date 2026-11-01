@@ -1,24 +1,25 @@
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:news_hub/core/network/interceptors/error_interceptor.dart';
-import 'package:news_hub/features/news_feed/data/api/news_api_service.dart';
-import 'package:news_hub/features/news_feed/data/datasources/news_remote_data_source.dart';
-import 'package:news_hub/features/news_feed/data/datasources/remote_articles_page.dart';
-import 'package:news_hub/features/news_feed/data/mappers/article_mapper.dart';
-import 'package:news_hub/features/news_feed/data/models/news_response_model.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
 
-/// [NewsRemoteDataSource] over the generated [NewsApiService] (Step 19).
+import '../../../../core/network/interceptors/error_interceptor.dart';
+import '../../domain/entities/news_category.dart';
+import '../api/news_api_service.dart';
+import '../mappers/article_mapper.dart';
+import '../models/news_response_model.dart';
+import 'news_remote_data_source.dart';
+import 'remote_articles_page.dart';
+
+/// [NewsRemoteDataSource] over the generated [NewsApiService].
 ///
 /// - Every API call runs inside [guardApiCall], so only `AppException`s
-///   escape (D10). Mapping to entities happens after the guard, so a bug in
+///   escape. Mapping to entities happens after the guard, so a bug in
 ///   our own mapper is never disguised as a `ParsingException`.
 /// - [NewsCategory] is mapped to NewsAPI's category string with an
-///   exhaustive `switch` (D12), never `.name`: renaming an enum value must
+///   exhaustive `switch`, never `.name`: renaming an enum value must
 ///   not change the request.
 /// - `forceRefresh` passes the injected HTTP cache options with
 ///   [CachePolicy.refreshForceCache] as Retrofit extras; otherwise no extras
 ///   are sent and the cache interceptor uses its default `forceCache`
-///   policy (D16).
+///   policy.
 final class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
   /// Creates the data source. [cacheOptions] is the app's HTTP cache
   /// configuration (the core `CacheOptions` singleton).

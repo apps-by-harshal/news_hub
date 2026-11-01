@@ -1,7 +1,8 @@
 import 'package:hive_ce/hive_ce.dart';
-import 'package:news_hub/core/storage/local_database.dart';
 
-/// [LocalDatabase] over a [HiveInterface] (Step 17a).
+import 'local_database.dart';
+
+/// [LocalDatabase] over a [HiveInterface].
 ///
 /// The two setup steps are injected so `core/` stays feature-agnostic and
 /// tests need no Flutter engine:

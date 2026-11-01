@@ -1,14 +1,14 @@
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
-import 'package:news_hub/features/news_feed/domain/entities/paginated_articles.dart';
+import '../../../../core/result/result.dart';
+import '../entities/article.dart';
+import '../entities/news_category.dart';
+import '../entities/paginated_articles.dart';
 
 /// Domain contract for reading news and managing bookmarks.
 ///
-/// Implemented by `NewsRepositoryImpl` (Step 20). Every method returns a
+/// Implemented by `NewsRepositoryImpl`. Every method returns a
 /// [Result] and never throws: data-layer exceptions arrive as a [Failure]
-/// carrying a domain failure (D9). Domain failures are named here with the
-/// `failures.` prefix used by callers (D8).
+/// carrying a domain failure. Domain failures are named here with the
+/// `failures.` prefix used by callers.
 abstract interface class NewsRepository {
   /// Fetches one page of top headlines for [category].
   ///
@@ -55,7 +55,7 @@ abstract interface class NewsRepository {
   });
 
   /// Bookmarks [article] if it is not bookmarked, otherwise removes the
-  /// bookmark. Bookmarks are matched by `Article.url` (D11).
+  /// bookmark. Bookmarks are matched by `Article.url`.
   ///
   /// Returns the new state: `Success(true)` when the article is now
   /// bookmarked (stored in full, so it can be read offline), and

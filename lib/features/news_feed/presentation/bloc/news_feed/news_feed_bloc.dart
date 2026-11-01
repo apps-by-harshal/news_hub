@@ -1,16 +1,17 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
-import 'package:news_hub/features/news_feed/domain/entities/paginated_articles.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/get_top_headlines.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_state.dart';
+
+import '../../../../../core/error/failures.dart' as failures;
+import '../../../../../core/result/result.dart';
+import '../../../domain/entities/article.dart';
+import '../../../domain/entities/news_category.dart';
+import '../../../domain/entities/paginated_articles.dart';
+import '../../../domain/usecases/get_top_headlines.dart';
+import 'news_feed_event.dart';
+import 'news_feed_state.dart';
 
 /// Drives the top-headlines feed: first load, category chips,
-/// pull-to-refresh and infinite scroll (Step 21).
+/// pull-to-refresh and infinite scroll.
 ///
 /// Event handling:
 /// - [NewsFeedStarted] (`droppable`): loads page 1 of `general`, only from
@@ -30,10 +31,10 @@ import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_fee
 /// dropped with a request id: every page-1 load increments it, and each
 /// handler checks it after its `await`.
 ///
-/// Articles are de-duplicated by URL (D11), keeping the copy already shown,
+/// Articles are de-duplicated by URL, keeping the copy already shown,
 /// so list keys stay unique even when NewsAPI pages overlap.
 ///
-/// `isOffline` comes from `PaginatedArticles.isFromCache` (D12), never from
+/// `isOffline` comes from `PaginatedArticles.isFromCache`, never from
 /// `NetworkInfo`.
 interface class NewsFeedBloc extends Bloc<NewsFeedEvent, NewsFeedState> {
   /// Creates the bloc in [NewsFeedInitial]. Callers pass `getTopHeadlines:`.

@@ -20,10 +20,10 @@ const String _urlB = 'https://example.com/bookmarks/b';
 const failures.Failure _cacheFailure = failures.CacheFailure('box closed');
 const failures.Failure _unexpectedFailure = failures.UnexpectedFailure('boom');
 
-/// Builds a fresh list on every call (agreement 9).
+/// Builds a fresh list on every call.
 List<Article> _articles(List<String> urls) => urls.map(buildArticle).toList();
 
-/// `Result` values are built through functions (Step 15 pattern).
+/// `Result` values are built through functions.
 Result<List<Article>> _success(List<Article> articles) {
   return Success<List<Article>>(articles);
 }
@@ -40,7 +40,7 @@ void main() {
   });
 
   /// The real use case on the mocked repository (use cases are final
-  /// classes, D19).
+  /// classes).
   BookmarksBloc buildBloc() {
     return BookmarksBloc(getBookmarks: GetBookmarks(repository: repository));
   }
@@ -337,7 +337,7 @@ void main() {
     await Future<void>.delayed(Duration.zero);
     // bloc 9.2.1's close() cancels the running handler's emitter and doesn't
     // wait for the read, so the read completes only after the bloc is closed
-    // (the Step 21 pattern).
+    // (the same pattern as the other bloc tests).
     await bloc.close();
     pending.complete(_success(_articles(<String>[_urlA])));
     await Future<void>.delayed(Duration.zero);

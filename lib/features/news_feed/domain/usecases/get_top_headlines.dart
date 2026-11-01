@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/core/usecase/usecase.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
-import 'package:news_hub/features/news_feed/domain/entities/paginated_articles.dart';
-import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
+
+import '../../../../core/result/result.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../entities/news_category.dart';
+import '../entities/paginated_articles.dart';
+import '../repositories/news_repository.dart';
 
 /// Fetches one page of top headlines for a category.
 ///

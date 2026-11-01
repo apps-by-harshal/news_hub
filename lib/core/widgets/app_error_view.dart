@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 /// button, centred in the available space.
 ///
 /// It takes ready-made text, so it knows nothing about failure types:
-/// callers pass `failure.userMessage` (D9). The content scrolls when it does
+/// callers pass `failure.userMessage`. The content scrolls when it does
 /// not fit, so a long message never overflows a small screen.
 class AppErrorView extends StatelessWidget {
   /// Creates an error view. Without [onRetry] no button is shown.

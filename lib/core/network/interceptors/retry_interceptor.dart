@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
+
+import '../../logging/app_logger.dart';
 
 /// Waits for [duration]; injected so tests never touch a real clock.
 typedef RetryDelay = Future<void> Function(Duration duration);
@@ -17,8 +18,8 @@ typedef RetryDelay = Future<void> Function(Duration duration);
 /// API key and cache again; the attempt number travels in
 /// `RequestOptions.extra[attemptKey]`, so nested retries share one budget.
 ///
-/// Reads [DioException] for the decision only and never maps or replaces it
-/// (CLAUDE.md §3.4). Logs a warning per retry with method, path, attempt and
+/// Reads [DioException] for the decision only and never maps or replaces it.
+/// Logs a warning per retry with method, path, attempt and
 /// reason; never headers.
 final class RetryInterceptor extends Interceptor {
   RetryInterceptor({

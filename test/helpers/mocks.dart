@@ -21,16 +21,16 @@ import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_fee
 import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_state.dart';
 
 /// Shared mocktail mocks for every abstract contract and external
-/// dependency (CLAUDE.md §5). Add new mocks here as contracts appear,
+/// dependency. Add new mocks here as contracts appear,
 /// grouped by layer and kept in alphabetical order within each group.
 ///
 /// Fallback values for `any()` matchers are registered in each test's
 /// `setUpAll`, not here, so every test states what it relies on.
 ///
-/// Bloc mocks (Step 22) extend bloc_test's `MockBloc`, which stubs only
+/// Bloc mocks extend bloc_test's `MockBloc`, which stubs only
 /// `stream` and `close()`: every test must script `state` with
 /// `whenListen(bloc, stream, initialState: …)`. They can implement the
-/// blocs because the blocs are `interface class`es (D19, amended Step 22).
+/// blocs because the blocs are `interface class`es.
 
 // ---- core ----
 

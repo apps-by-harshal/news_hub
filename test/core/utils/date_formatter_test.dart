@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:news_hub/core/utils/date_formatter.dart';
 
 // Every input is built from a *local* wall-clock time, so the expected text
-// is the same in any time zone the tests run in (Step 22, Q6). Articles
-// arrive in UTC (D11), so most inputs are converted with `toUtc()` first.
+// is the same in any time zone the tests run in. Articles
+// arrive in UTC, so most inputs are converted with `toUtc()` first.
 
 void main() {
   group('DateFormatter.shortDate', () {

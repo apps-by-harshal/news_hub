@@ -5,8 +5,7 @@ import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/art
 
 import '../../../../../fixtures/article_builders.dart';
 
-// States are built at runtime from `buildArticle(url)`, never as `const`
-// (agreement 9).
+// States are built at runtime from `buildArticle(url)`, never as `const`.
 
 const String urlA = 'https://example.com/a';
 const String urlB = 'https://example.com/b';
@@ -14,7 +13,7 @@ const String urlB = 'https://example.com/b';
 const failures.Failure cacheFailure = failures.CacheFailure('disk');
 const failures.Failure unexpectedFailure = failures.UnexpectedFailure('bug');
 
-/// Exhaustive switch with no default branch (agreement 10): adding a state
+/// Exhaustive switch with no default branch: adding a state
 /// subtype breaks compilation here until the test handles it.
 String describe(ArticleDetailState state) => switch (state) {
   ArticleDetailLoading() => 'loading',

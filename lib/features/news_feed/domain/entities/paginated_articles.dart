@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
+
+import 'article.dart';
 
 /// One page of articles, plus whether another page can be requested and
 /// whether it came from the local cache.
 ///
-/// Pure domain value: no serialization. It carries no `totalResults` (D11):
-/// the repository works out [hasMore] (Step 20). Because the mapper drops
+/// Pure domain value: no serialization. It carries no `totalResults`:
+/// the repository works out [hasMore]. Because the mapper drops
 /// invalid articles, [items] can hold fewer than a full page even when
 /// [hasMore] is `true`.
 ///
@@ -35,7 +36,7 @@ final class PaginatedArticles extends Equatable {
   /// request failed. The presentation layer shows it as offline.
   ///
   /// The repository guarantees that a cached page is always `page: 1` with
-  /// `hasMore: false` (Step 20).
+  /// `hasMore: false`.
   final bool isFromCache;
 
   @override

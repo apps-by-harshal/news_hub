@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
+
+import '../error/failures.dart' as failures;
 
 /// Outcome of a repository call: either a [Success] carrying a value or a
-/// [Failure] carrying a domain `failures.Failure` (D3).
+/// [Failure] carrying a domain `failures.Failure`.
 ///
 /// Repositories return it; use cases pass it through; BLoCs consume it with
 /// pattern matching, for example:
@@ -15,7 +16,7 @@ import 'package:news_hub/core/error/failures.dart' as failures;
 /// ```
 ///
 /// Naming: the error variant is called `Failure`, like the domain base class.
-/// Domain failures are always imported `as failures` (CLAUDE.md §3.4, D8).
+/// Domain failures are always imported `as failures`.
 ///
 /// Equality includes the type argument, so `Success<int>(1)` is not equal to
 /// `Success<num>(1)`. Mock stubs must return the exact `Result<T>` type.

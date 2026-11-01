@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/error/failures.dart' as failures;
-import 'package:news_hub/core/utils/date_formatter.dart';
-import 'package:news_hub/core/utils/failure_message.dart';
-import 'package:news_hub/core/widgets/app_network_image.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_bloc.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_event.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_state.dart';
 
-/// The article detail screen (Step 22-3, D20).
+import '../../../../core/error/failures.dart' as failures;
+import '../../../../core/utils/date_formatter.dart';
+import '../../../../core/utils/failure_message.dart';
+import '../../../../core/widgets/app_network_image.dart';
+import '../../domain/entities/article.dart';
+import '../bloc/article_detail/article_detail_bloc.dart';
+import '../bloc/article_detail/article_detail_event.dart';
+import '../bloc/article_detail/article_detail_state.dart';
+
+/// The article detail screen.
 ///
 /// Reads `ArticleDetailBloc` from the tree (provided by `ArticleDetailPage`)
 /// and builds its own `Scaffold`:
@@ -21,8 +22,8 @@ import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/art
 /// - the AppBar's bookmark action follows the state: disabled while the
 ///   status loads or could not be read (with a Retry next to it), filled or
 ///   outlined once known, disabled while a toggle runs;
-/// - a new `toggleFailure` shows one snackbar with `userMessage` (D9);
-/// - "Open full article" (Step 25, D24) hands the article's URL to
+/// - a new `toggleFailure` shows one snackbar with `userMessage`;
+/// - "Open full article" hands the article's URL to
 ///   [onOpenArticle], stays disabled until it completes, and shows a snackbar
 ///   when nothing opened.
 class ArticleDetailView extends StatelessWidget {
@@ -210,7 +211,7 @@ class _OpenArticleButtonState extends State<_OpenArticleButton> {
       _opening = true;
     });
 
-    // The mapper guarantees an absolute http(s) URL (D14).
+    // The mapper guarantees an absolute http(s) URL.
     final bool opened = await widget.onOpenArticle(Uri.parse(widget.url));
     if (!mounted) {
       return;

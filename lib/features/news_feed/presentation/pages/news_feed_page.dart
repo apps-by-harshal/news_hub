@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/core/di/injection_container.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
-import 'package:news_hub/features/news_feed/domain/usecases/get_top_headlines.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_bloc.dart';
-import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_event.dart';
-import 'package:news_hub/features/news_feed/presentation/widgets/news_feed_view.dart';
 
-/// The feed route's page (Step 22-3, D19, D20).
+import '../../../../core/di/injection_container.dart';
+import '../../domain/entities/article.dart';
+import '../../domain/usecases/get_top_headlines.dart';
+import '../bloc/news_feed/news_feed_bloc.dart';
+import '../bloc/news_feed/news_feed_event.dart';
+import '../widgets/news_feed_view.dart';
+
+/// The feed route's page.
 ///
 /// Creates the screen's [NewsFeedBloc] from the get_it use case, starts it,
 /// and lets [BlocProvider] close it when the page leaves the tree. Navigation
@@ -24,7 +25,7 @@ class NewsFeedPage extends StatelessWidget {
   /// Called with the article whose row was tapped.
   final ValueChanged<Article> onArticleTap;
 
-  /// Called when the Bookmarks button in the app bar is tapped (Step 24).
+  /// Called when the Bookmarks button in the app bar is tapped.
   final VoidCallback onBookmarksTap;
 
   @override

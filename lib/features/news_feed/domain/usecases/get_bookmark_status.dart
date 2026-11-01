@@ -1,10 +1,10 @@
-import 'package:news_hub/core/result/result.dart';
-import 'package:news_hub/core/usecase/usecase.dart';
-import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
+import '../../../../core/result/result.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../repositories/news_repository.dart';
 
 /// Reports whether the article with a given URL is bookmarked.
 ///
-/// The parameter is the article's URL, its identity (D11); no params class
+/// The parameter is the article's URL, its identity; no params class
 /// is needed for one value. Returns [NewsRepository.isBookmarked]'s
 /// [Result] unchanged. The article detail screen uses it to show the
 /// bookmark icon in the right state when it opens.

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:news_hub/features/news_feed/domain/entities/article.dart';
+
+import '../../domain/entities/article.dart';
 
 /// One page of results from the remote data source, already mapped to
 /// entities.
@@ -9,7 +10,7 @@ import 'package:news_hub/features/news_feed/domain/entities/article.dart';
 /// may be shorter than the requested page size.
 ///
 /// [totalResults] is the raw total reported by the API across all pages.
-/// The repository derives `hasMore` from it (D11), never from the length
+/// The repository derives `hasMore` from it, never from the length
 /// of [articles].
 final class RemoteArticlesPage extends Equatable {
   /// Copies [articles] into an unmodifiable list.

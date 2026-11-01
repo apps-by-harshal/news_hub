@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:news_hub/features/news_feed/domain/entities/news_category.dart';
+
+import '../../domain/entities/news_category.dart';
 
 /// A horizontally scrolling row of [ChoiceChip]s, one per [NewsCategory], in
 /// enum order.

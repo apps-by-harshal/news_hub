@@ -1,7 +1,7 @@
 /// The build environment the app is running in.
 ///
 /// Only [dev] exists today. `staging` and `prod` are added when
-/// environments are revisited (project-structure.md §6, D7).
+/// environments are revisited.
 enum Flavor {
   dev;
 

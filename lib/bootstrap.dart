@@ -1,15 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_hub/app.dart';
-import 'package:news_hub/core/config/app_config.dart';
-import 'package:news_hub/core/di/injection_container.dart';
-import 'package:news_hub/core/logging/app_logger.dart';
-import 'package:news_hub/core/router/router_observer.dart';
-import 'package:news_hub/core/storage/local_database.dart';
-import 'package:news_hub/core/utils/bloc_observer.dart';
-import 'package:news_hub/router/app_router.dart';
-import 'package:news_hub/startup_error_app.dart';
+
+import 'app.dart';
+import 'core/config/app_config.dart';
+import 'core/di/injection_container.dart';
+import 'core/logging/app_logger.dart';
+import 'core/router/router_observer.dart';
+import 'core/storage/local_database.dart';
+import 'core/utils/bloc_observer.dart';
+import 'router/app_router.dart';
+import 'startup_error_app.dart';
 
 /// Wires the app together and returns the root widget for `runApp`.
 ///
@@ -25,7 +26,7 @@ import 'package:news_hub/startup_error_app.dart';
 /// - returns [App] with a router that logs navigation ([AppRouterObserver]).
 ///
 /// If storage can't be opened, the failure is logged, the error hooks are
-/// still installed, and [StartupErrorApp] is returned instead (Step 23, Q3 A).
+/// still installed, and [StartupErrorApp] is returned instead.
 /// Only `LocalDatabase.init()` can fail here: registration runs first, so
 /// the logger is always available. [localDatabase] replaces the real
 /// database in tests.
