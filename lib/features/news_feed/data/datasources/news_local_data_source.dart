@@ -48,4 +48,12 @@ abstract interface class NewsLocalDataSource {
 
   /// Whether a bookmark exists for [url].
   Future<bool> isBookmarked(String url);
+
+  /// Returns every bookmark, stored in full, newest first: the most recently
+  /// saved article comes first. Returns an empty list when nothing is saved.
+  ///
+  /// Saving an already-bookmarked URL again keeps its position ([saveBookmark]
+  /// overwrites in place); an article removed and bookmarked again counts as
+  /// newly saved.
+  Future<List<Article>> getBookmarks();
 }

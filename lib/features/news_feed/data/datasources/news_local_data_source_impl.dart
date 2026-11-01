@@ -29,7 +29,8 @@ const String _bookmarksBoxName = 'bookmarks';
 /// - **Bookmarks:** stored under auto-increment int keys and found by URL.
 ///   The URL is not the key because Hive limits String keys to 255 UTF-8
 ///   bytes and checks that only in debug builds. Lookups scan the open box
-///   in memory, which is fine for a user's bookmark count.
+///   in memory, which is fine for a user's bookmark count. The list is read
+///   newest first: reverse key order (Step 24).
 final class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   /// Creates the data source. [localDatabase] must have completed `init()`.
   const NewsLocalDataSourceImpl({required this._localDatabase});
@@ -105,6 +106,19 @@ final class NewsLocalDataSourceImpl implements NewsLocalDataSource {
     final Box<ArticleLocalModel> box = await _bookmarksBox();
     return _keysFor(box, url).isNotEmpty;
   });
+
+  @override
+  Future<List<Article>> getBookmarks() =>
+      guardStorageCall<List<Article>>(() async {
+        final Box<ArticleLocalModel> box = await _bookmarksBox();
+        // Values come back in key order, and add() hands out ascending keys,
+        // so reversing gives the most recently saved bookmark first.
+        return box.values
+            .toList()
+            .reversed
+            .map((ArticleLocalModel model) => model.toEntity())
+            .toList();
+      });
 
   Future<Box<CachedArticlesLocalModel>> _cacheBox() =>
       _localDatabase.openBox<CachedArticlesLocalModel>(_cacheBoxName);

@@ -4,13 +4,18 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:news_hub/features/news_feed/domain/entities/article.dart';
 import 'package:news_hub/features/news_feed/presentation/pages/article_detail_page.dart';
+import 'package:news_hub/features/news_feed/presentation/pages/bookmarks_page.dart';
 import 'package:news_hub/features/news_feed/presentation/pages/news_feed_page.dart';
 import 'package:news_hub/router/route_names.dart';
 
 /// Builds the app's [GoRouter] (Step 22a).
 ///
 /// - [RouteNames.feedPath] shows [NewsFeedPage]; tapping an article pushes
-///   [RouteNames.article] with the [Article] as `extra`.
+///   [RouteNames.article] with the [Article] as `extra`, and the app bar's
+///   Bookmarks button pushes [RouteNames.bookmarks].
+/// - [RouteNames.bookmarksPath] shows [BookmarksPage]; tapping an article
+///   pushes [RouteNames.article] and completes when it is popped, so the page
+///   can reload (Step 24, D23).
 /// - [RouteNames.articlePath] shows [ArticleDetailPage] for the [Article] in
 ///   `extra`. Without one (a deep link, a web refresh, restored state) it
 ///   redirects to the feed, because an article can't be rebuilt from the URL.
@@ -36,6 +41,20 @@ GoRouter createAppRouter({
               unawaited(
                 context.pushNamed<void>(RouteNames.article, extra: article),
               );
+            },
+            onBookmarksTap: () {
+              unawaited(context.pushNamed<void>(RouteNames.bookmarks));
+            },
+          );
+        },
+      ),
+      GoRoute(
+        path: RouteNames.bookmarksPath,
+        name: RouteNames.bookmarks,
+        builder: (BuildContext context, GoRouterState state) {
+          return BookmarksPage(
+            onArticleTap: (Article article) async {
+              await context.pushNamed<void>(RouteNames.article, extra: article);
             },
           );
         },

@@ -12,6 +12,7 @@ import 'package:news_hub/features/news_feed/data/datasources/news_remote_data_so
 import 'package:news_hub/features/news_feed/data/repositories/news_repository_impl.dart';
 import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/get_bookmark_status.dart';
+import 'package:news_hub/features/news_feed/domain/usecases/get_bookmarks.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/get_top_headlines.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/search_articles.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/toggle_bookmark.dart';
@@ -66,13 +67,14 @@ void main() {
       expect(container<NewsRepository>(), isA<NewsRepositoryImpl>());
     });
 
-    test('registers the four use cases', () {
+    test('registers the five use cases', () {
       registerNewsFeedModule(container);
 
       expect(container<GetTopHeadlines>(), isA<GetTopHeadlines>());
       expect(container<SearchArticles>(), isA<SearchArticles>());
       expect(container<ToggleBookmark>(), isA<ToggleBookmark>());
       expect(container<GetBookmarkStatus>(), isA<GetBookmarkStatus>());
+      expect(container<GetBookmarks>(), isA<GetBookmarks>());
     });
 
     test('returns the same instance on every read', () {
@@ -86,6 +88,7 @@ void main() {
       expectSameOnEveryRead<SearchArticles>();
       expectSameOnEveryRead<ToggleBookmark>();
       expectSameOnEveryRead<GetBookmarkStatus>();
+      expectSameOnEveryRead<GetBookmarks>();
     });
 
     test('registers no bloc (blocs live in BlocProvider, D19)', () {
@@ -112,9 +115,10 @@ void main() {
         container<SearchArticles>(),
         container<ToggleBookmark>(),
         container<GetBookmarkStatus>(),
+        container<GetBookmarks>(),
       ];
 
-      expect(resolved, hasLength(4));
+      expect(resolved, hasLength(5));
       verifyNoMoreInteractions(localDatabase);
     });
   });

@@ -12,6 +12,9 @@ import 'package:news_hub/features/news_feed/domain/repositories/news_repository.
 import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_bloc.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_event.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/article_detail/article_detail_state.dart';
+import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_bloc.dart';
+import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_event.dart';
+import 'package:news_hub/features/news_feed/presentation/bloc/bookmarks/bookmarks_state.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_bloc.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_event.dart';
 import 'package:news_hub/features/news_feed/presentation/bloc/news_feed/news_feed_state.dart';
@@ -41,6 +44,9 @@ class MockNetworkInfo extends Mock implements NetworkInfo {}
 class MockArticleDetailBloc
     extends MockBloc<ArticleDetailEvent, ArticleDetailState>
     implements ArticleDetailBloc {}
+
+class MockBookmarksBloc extends MockBloc<BookmarksEvent, BookmarksState>
+    implements BookmarksBloc {}
 
 class MockNewsApiService extends Mock implements NewsApiService {}
 

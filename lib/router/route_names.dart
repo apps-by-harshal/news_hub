@@ -17,4 +17,11 @@ abstract final class RouteNames {
   /// Path of [article]. Opened without an article in `extra` (deep link, web
   /// refresh), it redirects to [feedPath].
   static const String articlePath = '/article';
+
+  /// The list of bookmarked articles, opened from the feed's app bar
+  /// (Step 24).
+  static const String bookmarks = 'bookmarks';
+
+  /// Path of [bookmarks].
+  static const String bookmarksPath = '/bookmarks';
 }

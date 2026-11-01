@@ -11,14 +11,21 @@ import 'package:news_hub/features/news_feed/presentation/widgets/news_feed_view.
 ///
 /// Creates the screen's [NewsFeedBloc] from the get_it use case, starts it,
 /// and lets [BlocProvider] close it when the page leaves the tree. Navigation
-/// is the router's job: it arrives through [onArticleTap], so this page never
-/// imports go_router.
+/// is the router's job: it arrives through [onArticleTap] and
+/// [onBookmarksTap], so this page never imports go_router.
 class NewsFeedPage extends StatelessWidget {
   /// Creates the feed page.
-  const NewsFeedPage({required this.onArticleTap, super.key});
+  const NewsFeedPage({
+    required this.onArticleTap,
+    required this.onBookmarksTap,
+    super.key,
+  });
 
   /// Called with the article whose row was tapped.
   final ValueChanged<Article> onArticleTap;
+
+  /// Called when the Bookmarks button in the app bar is tapped (Step 24).
+  final VoidCallback onBookmarksTap;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,10 @@ class NewsFeedPage extends StatelessWidget {
       create: (BuildContext context) =>
           NewsFeedBloc(getTopHeadlines: getIt<GetTopHeadlines>())
             ..add(const NewsFeedStarted()),
-      child: NewsFeedView(onArticleTap: onArticleTap),
+      child: NewsFeedView(
+        onArticleTap: onArticleTap,
+        onBookmarksTap: onBookmarksTap,
+      ),
     );
   }
 }

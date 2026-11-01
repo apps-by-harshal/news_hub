@@ -69,4 +69,12 @@ abstract interface class NewsRepository {
   /// Reads local storage only. Failures: `failures.CacheFailure` or
   /// `failures.UnexpectedFailure`.
   Future<Result<bool>> isBookmarked(String url);
+
+  /// Every bookmarked article, stored in full, newest first (the most
+  /// recently bookmarked article comes first). An empty list when nothing is
+  /// bookmarked.
+  ///
+  /// Reads local storage only, so it works offline. Failures:
+  /// `failures.CacheFailure` or `failures.UnexpectedFailure`.
+  Future<Result<List<Article>>> getBookmarks();
 }

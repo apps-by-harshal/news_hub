@@ -26,7 +26,8 @@ const String _offlineMessage = 'No network connection';
 ///   `UnauthorizedException` never falls back (a bad API key must not look
 ///   like being offline).
 /// - **Search:** network only, never persisted.
-/// - **Bookmarks:** local only, read-then-write.
+/// - **Bookmarks:** local only. Toggling is read-then-write; the list comes
+///   back newest first, as stored (Step 24).
 ///
 /// Every method returns a [Result] and never throws. An [AppException]
 /// becomes `Failure(e.toFailure())` without logging (D9); anything else is
@@ -124,6 +125,13 @@ final class NewsRepositoryImpl implements NewsRepository {
   Future<Result<bool>> isBookmarked(String url) {
     return _guard<bool>('checking a bookmark', () async {
       return Success<bool>(await _localDataSource.isBookmarked(url));
+    });
+  }
+
+  @override
+  Future<Result<List<Article>>> getBookmarks() {
+    return _guard<List<Article>>('loading bookmarks', () async {
+      return Success<List<Article>>(await _localDataSource.getBookmarks());
     });
   }
 

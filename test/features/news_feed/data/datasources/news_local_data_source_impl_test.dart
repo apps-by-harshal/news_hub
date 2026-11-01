@@ -281,6 +281,55 @@ void main() {
     });
   });
 
+  group('getBookmarks', () {
+    test('returns an empty list when nothing is saved', () async {
+      expect(await dataSource.getBookmarks(), isEmpty);
+    });
+
+    test('returns every bookmark in full, newest first, after closing and '
+        'reopening the box', () async {
+      final Article withoutOptionals = buildArticleWithoutOptionals(_urlB);
+      await dataSource.saveBookmark(buildArticle(_urlA));
+      await dataSource.saveBookmark(withoutOptionals);
+      await dataSource.saveBookmark(buildArticle(_urlC));
+
+      // Read back through the adapter, not from the open box in memory.
+      await Hive.close();
+
+      expect(await dataSource.getBookmarks(), <Article>[
+        buildArticle(_urlC),
+        withoutOptionals,
+        buildArticle(_urlA),
+      ]);
+    });
+
+    test('drops a removed bookmark and keeps the rest in order', () async {
+      await dataSource.saveBookmark(buildArticle(_urlA));
+      await dataSource.saveBookmark(buildArticle(_urlB));
+      await dataSource.saveBookmark(buildArticle(_urlC));
+
+      await dataSource.removeBookmark(_urlB);
+
+      expect(await dataSource.getBookmarks(), <Article>[
+        buildArticle(_urlC),
+        buildArticle(_urlA),
+      ]);
+    });
+
+    test('an article bookmarked again after removal comes first', () async {
+      await dataSource.saveBookmark(buildArticle(_urlA));
+      await dataSource.saveBookmark(buildArticle(_urlB));
+      await dataSource.removeBookmark(_urlA);
+
+      await dataSource.saveBookmark(buildArticle(_urlA));
+
+      expect(await dataSource.getBookmarks(), <Article>[
+        buildArticle(_urlA),
+        buildArticle(_urlB),
+      ]);
+    });
+  });
+
   group('storage failures → CacheException', () {
     // Opening a box that is already open with another value type makes Hive
     // throw a real HiveError.
@@ -327,6 +376,15 @@ void main() {
 
       await expectLater(
         dataSource.isBookmarked(_urlA),
+        throwsA(isA<CacheException>()),
+      );
+    });
+
+    test('getBookmarks', () async {
+      await openBookmarksBoxWithWrongType();
+
+      await expectLater(
+        dataSource.getBookmarks(),
         throwsA(isA<CacheException>()),
       );
     });

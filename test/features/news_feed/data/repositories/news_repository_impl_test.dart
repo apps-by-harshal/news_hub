@@ -65,6 +65,14 @@ Result<bool> boolFailure(failures.Failure failure) {
   return Failure<bool>(failure);
 }
 
+Result<List<Article>> listSuccess(List<Article> articles) {
+  return Success<List<Article>>(articles);
+}
+
+Result<List<Article>> listFailure(failures.Failure failure) {
+  return Failure<List<Article>>(failure);
+}
+
 void main() {
   late MockNewsRemoteDataSource remote;
   late MockNewsLocalDataSource local;
@@ -938,6 +946,62 @@ void main() {
         verify(
           () => logger.error(
             any(),
+            error: storageError,
+            stackTrace: any(named: 'stackTrace', that: isNotNull),
+          ),
+        ).called(1);
+        verifyNoMoreCalls();
+      },
+    );
+  });
+
+  group('getBookmarks', () {
+    test('returns the stored bookmarks, from local storage only', () async {
+      final List<Article> stored = <Article>[
+        buildArticle('https://example.com/newest'),
+        buildArticleWithoutOptionals('https://example.com/oldest'),
+      ];
+      when(() => local.getBookmarks()).thenAnswer((_) async => stored);
+
+      final Result<List<Article>> result = await repository.getBookmarks();
+
+      expect(result, listSuccess(stored));
+      // No NetworkInfo, remote or logger call: verifyNoMoreCalls checks all.
+      verify(() => local.getBookmarks()).called(1);
+      verifyNoMoreCalls();
+    });
+
+    test('a CacheException returns CacheFailure without logging', () async {
+      when(() => local.getBookmarks())
+          .thenThrow(const CacheException('read failed'));
+
+      final Result<List<Article>> result = await repository.getBookmarks();
+
+      expect(result, listFailure(const failures.CacheFailure('read failed')));
+      verify(() => local.getBookmarks()).called(1);
+      verifyNoMoreCalls();
+    });
+
+    test(
+      'a non-AppException is logged and returned as UnexpectedFailure',
+      () async {
+        final StateError storageError = StateError('unexpected');
+        when(() => local.getBookmarks()).thenThrow(storageError);
+
+        final Result<List<Article>> result = await repository.getBookmarks();
+
+        expect(
+          result,
+          listFailure(
+            const failures.UnexpectedFailure(
+              'Unexpected error while loading bookmarks',
+            ),
+          ),
+        );
+        verify(() => local.getBookmarks()).called(1);
+        verify(
+          () => logger.error(
+            'Unexpected error while loading bookmarks',
             error: storageError,
             stackTrace: any(named: 'stackTrace', that: isNotNull),
           ),

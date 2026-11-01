@@ -12,6 +12,7 @@ import 'package:news_hub/features/news_feed/data/datasources/news_remote_data_so
 import 'package:news_hub/features/news_feed/data/repositories/news_repository_impl.dart';
 import 'package:news_hub/features/news_feed/domain/repositories/news_repository.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/get_bookmark_status.dart';
+import 'package:news_hub/features/news_feed/domain/usecases/get_bookmarks.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/get_top_headlines.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/search_articles.dart';
 import 'package:news_hub/features/news_feed/domain/usecases/toggle_bookmark.dart';
@@ -59,5 +60,8 @@ void registerNewsFeedModule(GetIt getIt) {
     )
     ..registerLazySingleton<GetBookmarkStatus>(
       () => GetBookmarkStatus(repository: getIt<NewsRepository>()),
+    )
+    ..registerLazySingleton<GetBookmarks>(
+      () => GetBookmarks(repository: getIt<NewsRepository>()),
     );
 }

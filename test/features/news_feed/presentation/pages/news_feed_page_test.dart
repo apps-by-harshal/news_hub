@@ -75,7 +75,9 @@ void main() {
     when(() => firstPage(forceRefresh: false))
         .thenAnswer((_) => pending.future);
 
-    await tester.pumpApp(NewsFeedPage(onArticleTap: (Article _) {}));
+    await tester.pumpApp(
+      NewsFeedPage(onArticleTap: (Article _) {}, onBookmarksTap: () {}),
+    );
 
     expect(find.byType(NewsFeedView), findsOneWidget);
     expect(find.byType(AppLoadingIndicator), findsOneWidget);
@@ -97,11 +99,32 @@ void main() {
         .thenAnswer((_) async => _firstPageOf(<Article>[first, second]));
     final List<Article> tapped = <Article>[];
 
-    await tester.pumpApp(NewsFeedPage(onArticleTap: tapped.add));
+    await tester.pumpApp(
+      NewsFeedPage(onArticleTap: tapped.add, onBookmarksTap: () {}),
+    );
     await tester.pump();
     await tester.tap(find.text(second.title));
 
     expect(tapped, <Article>[second]);
+  });
+
+  testWidgets('passes a Bookmarks tap to onBookmarksTap', (
+    WidgetTester tester,
+  ) async {
+    when(() => firstPage(forceRefresh: false))
+        .thenAnswer((_) async => _firstPageOf(<Article>[first]));
+    int taps = 0;
+
+    await tester.pumpApp(
+      NewsFeedPage(onArticleTap: (Article _) {}, onBookmarksTap: () => taps++),
+    );
+    await tester.pump();
+    await tester.tap(find.byTooltip('Bookmarks'));
+    await tester.pump();
+
+    expect(taps, 1);
+    verify(() => firstPage(forceRefresh: false)).called(1);
+    verifyNoMoreInteractions(repository);
   });
 
   testWidgets('shows the failure copy, and Retry reloads with fresh data', (
@@ -115,7 +138,9 @@ void main() {
     when(() => firstPage(forceRefresh: true))
         .thenAnswer((_) async => _firstPageOf(<Article>[first]));
 
-    await tester.pumpApp(NewsFeedPage(onArticleTap: (Article _) {}));
+    await tester.pumpApp(
+      NewsFeedPage(onArticleTap: (Article _) {}, onBookmarksTap: () {}),
+    );
     await tester.pump();
 
     expect(find.byType(AppErrorView), findsOneWidget);
@@ -142,7 +167,9 @@ void main() {
     when(() => firstPage(forceRefresh: false))
         .thenAnswer((_) => pending.future);
 
-    await tester.pumpApp(NewsFeedPage(onArticleTap: (Article _) {}));
+    await tester.pumpApp(
+      NewsFeedPage(onArticleTap: (Article _) {}, onBookmarksTap: () {}),
+    );
     final NewsFeedBloc bloc = BlocProvider.of<NewsFeedBloc>(
       tester.element(find.byType(NewsFeedView)),
     );

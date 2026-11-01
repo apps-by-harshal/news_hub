@@ -17,12 +17,20 @@ import 'package:news_hub/features/news_feed/presentation/widgets/offline_banner.
 /// all driven by the [NewsFeedBloc] above it (D20).
 ///
 /// It reads state and sends events only; the page creates the bloc and sends
-/// `NewsFeedStarted`, and navigation arrives through [onArticleTap].
+/// `NewsFeedStarted`, and navigation arrives through [onArticleTap] and
+/// [onBookmarksTap].
 class NewsFeedView extends StatelessWidget {
-  const NewsFeedView({required this.onArticleTap, super.key});
+  const NewsFeedView({
+    required this.onArticleTap,
+    required this.onBookmarksTap,
+    super.key,
+  });
 
   /// Called with the article whose row was tapped.
   final ValueChanged<Article> onArticleTap;
+
+  /// Called when the Bookmarks button in the app bar is tapped (Step 24).
+  final VoidCallback onBookmarksTap;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +55,16 @@ class NewsFeedView extends StatelessWidget {
           );
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('News Hub')),
+        appBar: AppBar(
+          title: const Text('News Hub'),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.bookmarks_outlined),
+              tooltip: 'Bookmarks',
+              onPressed: onBookmarksTap,
+            ),
+          ],
+        ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[

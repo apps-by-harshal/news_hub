@@ -82,7 +82,7 @@ void main() {
 
   tearDown(() async {
     clearImageCache();
-    // Test 16 closes the controller inside the fake-async test body; its
+    // The last test closes the controller inside the fake-async body; its
     // done future can't complete out here, so don't wait on it twice.
     if (!controller.isClosed) {
       await controller.close();
@@ -93,12 +93,16 @@ void main() {
     WidgetTester tester,
     NewsFeedState initialState, {
     ValueChanged<Article>? onArticleTap,
+    VoidCallback? onBookmarksTap,
   }) {
     whenListen(bloc, controller.stream, initialState: initialState);
     return tester.pumpApp(
       BlocProvider<NewsFeedBloc>.value(
         value: bloc,
-        child: NewsFeedView(onArticleTap: onArticleTap ?? (_) {}),
+        child: NewsFeedView(
+          onArticleTap: onArticleTap ?? (_) {},
+          onBookmarksTap: onBookmarksTap ?? () {},
+        ),
       ),
     );
   }
@@ -174,6 +178,42 @@ void main() {
       await tester.pump();
 
       expect(tapped, <Article>[buildArticle(_url2)]);
+    });
+  });
+
+  group('NewsFeedView app bar', () {
+    testWidgets('the Bookmarks button calls onBookmarksTap once and sends no '
+        'event', (WidgetTester tester) async {
+      int taps = 0;
+      await pumpView(tester, _loaded(), onBookmarksTap: () => taps++);
+
+      final IconButton button = tester.widget<IconButton>(
+        find.widgetWithIcon(IconButton, Icons.bookmarks_outlined),
+      );
+      expect(button.tooltip, 'Bookmarks');
+      expect(button.onPressed, isNotNull);
+
+      await tester.tap(find.byTooltip('Bookmarks'));
+      await tester.pump();
+
+      expect(taps, 1);
+      verifyNever(() => bloc.add(any()));
+    });
+
+    testWidgets('the Bookmarks button works while the feed is loading', (
+      WidgetTester tester,
+    ) async {
+      int taps = 0;
+      await pumpView(
+        tester,
+        const NewsFeedLoading(category: NewsCategory.general),
+        onBookmarksTap: () => taps++,
+      );
+
+      await tester.tap(find.byTooltip('Bookmarks'));
+      await tester.pump();
+
+      expect(taps, 1);
     });
   });
 
