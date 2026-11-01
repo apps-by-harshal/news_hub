@@ -11,6 +11,10 @@ import 'package:news_hub/core/logging/log_level.dart';
 import 'package:news_hub/core/network/interceptors/logging_interceptor.dart';
 import 'package:news_hub/core/network/network_info.dart';
 import 'package:news_hub/core/network/network_info_impl.dart';
+import 'package:news_hub/core/storage/local_database.dart';
+import 'package:news_hub/core/storage/local_database_impl.dart';
+
+import '../../helpers/mocks.dart';
 
 const String _baseUrl = 'https://newsapi.test/v2';
 
@@ -82,6 +86,26 @@ void main() {
       expect(_hasLoggingInterceptor(getIt<Dio>()), isFalse);
     });
 
+    test('resolves LocalDatabase to LocalDatabaseImpl', () {
+      // Resolving only builds the object: Hive.initFlutter is passed as a
+      // tear-off and runs at init(), so no Flutter engine is needed here.
+      registerCoreModule(getIt, config: _config());
+
+      expect(getIt<LocalDatabase>(), isA<LocalDatabaseImpl>());
+    });
+
+    test('registers a given LocalDatabase instance itself', () {
+      final MockLocalDatabase localDatabase = MockLocalDatabase();
+
+      registerCoreModule(
+        getIt,
+        config: _config(),
+        localDatabase: localDatabase,
+      );
+
+      expect(getIt<LocalDatabase>(), same(localDatabase));
+    });
+
     test('returns the same instance on every lookup', () {
       registerCoreModule(getIt, config: _config());
 
@@ -89,6 +113,7 @@ void main() {
       expect(getIt<NetworkInfo>(), same(getIt<NetworkInfo>()));
       expect(getIt<CacheOptions>(), same(getIt<CacheOptions>()));
       expect(getIt<Dio>(), same(getIt<Dio>()));
+      expect(getIt<LocalDatabase>(), same(getIt<LocalDatabase>()));
     });
   });
 }

@@ -76,6 +76,19 @@ Matcher _isParsingException() => isA<ParsingException>().having(
   isNotEmpty,
 );
 
+/// A genuine [TypeError] from a failed cast: the error Dio wraps in a
+/// `DioExceptionType.unknown` when a response body does not match the
+/// requested type (Step 19, D10).
+TypeError _realTypeError() {
+  try {
+    const Object notAnInt = 'not a number';
+    final int value = notAnInt as int;
+    fail('Expected a TypeError, got $value');
+  } on TypeError catch (e) {
+    return e;
+  }
+}
+
 /// Exhaustive on purpose (no default): a new `DioExceptionType` in a future
 /// dio release breaks this test's compilation until the mapping is decided.
 Matcher _expectedFor(DioExceptionType type) => switch (type) {
@@ -254,6 +267,13 @@ void main() {
         expect(mapped, _isParsingException());
       });
 
+      test('TypeError → ParsingException', () async {
+        final Object? mapped = await _mappedErrorFor(
+          throwing((RequestOptions o) => _realTypeError()),
+        );
+        expect(mapped, _isParsingException());
+      });
+
       test('any other error → ServerException with no status code', () async {
         final Object? mapped = await _mappedErrorFor(
           throwing((RequestOptions o) => StateError('adapter exploded')),
@@ -336,6 +356,35 @@ void main() {
         ),
         throwsA(_isNetworkException()),
       );
+    });
+
+    group('a 200 body that is not a JSON object → ParsingException', () {
+      // Dio casts the decoded body to the requested type after the
+      // interceptor chain has run, so ErrorInterceptor never sees the
+      // resulting TypeError; Dio wraps it in a DioExceptionType.unknown.
+      test('a JSON list', () async {
+        final Dio dio = _buildDio(<FakeResponder>[
+          jsonResponse(200, <Object?>[]),
+        ]);
+        await expectLater(
+          guardApiCall<Response<Map<String, Object?>>>(
+            () => dio.get<Map<String, Object?>>(_path),
+          ),
+          throwsA(_isParsingException()),
+        );
+      });
+
+      test('a plain-text body', () async {
+        final Dio dio = _buildDio(<FakeResponder>[
+          rawResponse(200, 'not json'),
+        ]);
+        await expectLater(
+          guardApiCall<Response<Map<String, Object?>>>(
+            () => dio.get<Map<String, Object?>>(_path),
+          ),
+          throwsA(_isParsingException()),
+        );
+      });
     });
 
     test('FormatException → ParsingException', () async {

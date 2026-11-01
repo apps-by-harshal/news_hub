@@ -27,6 +27,11 @@ final class ErrorInterceptor extends Interceptor {
 /// - [FormatException], [TypeError] and [CheckedFromJsonException] (thrown,
 ///   then rethrown, by Retrofit's generated `fromJson` call) become a
 ///   [ParsingException].
+/// - A 200 body that is not a JSON object (a list, plain text) also becomes
+///   a [ParsingException]: Dio casts the body to the requested type after
+///   the interceptor chain has run, so [ErrorInterceptor] never sees it, and
+///   Dio wraps the resulting [TypeError] in a `DioExceptionType.unknown`
+///   (dio 5.11.1, `DioMixin.fetch` → `assureResponse`; Step 19).
 /// - An [AppException] and any other error propagate unchanged, so the
 ///   repository's catch-all can log them as an unexpected failure (D9).
 ///
@@ -79,6 +84,10 @@ AppException _mapDioException(DioException err) {
     DioExceptionType.unknown => switch (err.error) {
       FormatException(:final String message) => ParsingException(
         'Malformed response body: $message',
+      ),
+      // The body decoded, but not to the requested type (see guardApiCall).
+      TypeError() => ParsingException(
+        'Unexpected response shape: ${err.error}',
       ),
       _ => ServerException(message: fallback),
     },

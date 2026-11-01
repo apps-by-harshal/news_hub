@@ -19,4 +19,17 @@ abstract final class AppConstants {
   /// headlines stay reasonably fresh. Offline reading is Hive's job, not
   /// this cache's (CLAUDE.md §3.5).
   static const Duration httpCacheMaxStale = Duration(minutes: 10);
+
+  /// Number of articles requested per page from NewsAPI (`pageSize`).
+  ///
+  /// The repository passes it to the remote data source and uses it to work
+  /// out `PaginatedArticles.hasMore` (D11).
+  static const int newsPageSize = 20;
+
+  /// The most results NewsAPI's free Developer plan returns for one query.
+  ///
+  /// Requesting a page that starts past this many results is rejected by
+  /// the API, so `hasMore` is `false` once `page * newsPageSize` reaches
+  /// `min(totalResults, newsMaxResults)` (D11).
+  static const int newsMaxResults = 100;
 }
