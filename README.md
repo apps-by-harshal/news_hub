@@ -155,7 +155,7 @@ env/dev.example.json          # template for your environment file
 ### 1. Get the code and dependencies
 
 ```bash
-git clone https://github.com/pathak-harshal/news_hub.git
+git clone https://github.com/apps-by-harshal/news_hub.git
 cd news_hub
 flutter pub get
 ```
